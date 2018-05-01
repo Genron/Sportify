@@ -12,42 +12,42 @@ import {DetailPage} from "../detail/detail";
   templateUrl: 'home.html'
 })
 export class HomePage {
-  needItems: Observable<any[]>;
-  newItem: any = '';
+  availableGames: Observable<any[]>;
+  newGame: any = '';
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
-    this.needItems = this.firebaseService.getItems();
+    this.availableGames = this.firebaseService.getGames();
   }
 
-  addItem() {
-    if (this.newItem.length === 0 || !this.newItem.trim()) {
+  addGame() {
+    if (this.newGame.length === 0 || !this.newGame.trim()) {
       console.log("empty");
     } else {
-      this.firebaseService.addItem(this.newItem).then(() => {
-        this.newItem = "";
+      this.firebaseService.createGame(this.newGame).then(() => {
+        this.newGame = "";
         this.keyboard.close();
         this.content.scrollToBottom();
       });
     }
   }
 
-  removeItem(id) {
-    this.firebaseService.deleteItem(id);
+  removeGame(key) {
+    this.firebaseService.deleteGame(key);
   }
 
-  doneItem(key, status) {
-    this.firebaseService.doneItem(key, status);
+  gameDone(key, isDone) {
+    this.firebaseService.gameDone(key, isDone);
   }
 
   onScroll(event) {
     this.keyboard.close();
   }
 
-  itemTapped(event, item) {
+  gameTapped(event, game) {
     // That's right, we're pushing to ourselves!
     this.navCtrl.push(DetailPage, {
-      item: item
+      item: game
     });
     console.log("Hello");
   }

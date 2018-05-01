@@ -27,7 +27,7 @@ export class DetailPage {
   }
 
   updateItem() {
-    this.firebaseService.updateItem(this.selectedItem.key, this.selectedItem.value).then(() => {
+    this.firebaseService.updateGame(this.selectedItem.key, this.selectedItem.value).then(() => {
       this.navCtrl.pop();
     });
   }

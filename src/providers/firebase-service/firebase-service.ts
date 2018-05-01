@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireList} from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 
 /*
@@ -14,32 +14,36 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class FirebaseServiceProvider {
 
-  itemsRef: AngularFireList<any>;
-  items: Observable<any[]>;
+  gamesRef: AngularFireList<any>;
+  games: Observable<any[]>;
 
   constructor(public afd: AngularFireDatabase) {
-    this.itemsRef = this.afd.list('/weneedItems/');
-    this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    this.gamesRef = this.afd.list('/weneedItems/');
+    this.games = this.gamesRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
     });
   }
 
-  getItems(){
-    return this.items;
+  getGames() {
+    return this.games;
   }
-  addItem(newName) {
-    return this.itemsRef.push({ value: newName, isDone: false });
+
+  createGame(newName) {
+    return this.gamesRef.push({value: newName, isDone: false, teams: []});
   }
-  updateItem(key, newText) {
-    return this.itemsRef.update(key, { value: newText });
+
+  updateGame(key, newGameName) {
+    return this.gamesRef.update(key, {value: newGameName});
   }
-//sets an item to done or undone
-  doneItem(key, status) {
-    return this.itemsRef.update(key, { isDone: status });
+
+  //sets a game to done or undone
+  gameDone(key, isDone) {
+    return this.gamesRef.update(key, {isDone: isDone});
   }
-  deleteItem(key) {
-    this.itemsRef.remove(key);
+
+  deleteGame(key) {
+    this.gamesRef.remove(key);
   }
-  }
+}
 
 
