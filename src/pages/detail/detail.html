@@ -7,13 +7,43 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>detail</ion-title>
+    <ion-title>{{selectedGame.value}}</ion-title>
   </ion-navbar>
-
+  <ion-toolbar>
+  <ion-searchbar [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
+                 (ionCancel)="this.newTeam=''" placeholder="Team name..."></ion-searchbar>
+  <ion-buttons end>
+    <button ion-button solid icon-right (click)="addTeam()" style="marginright:
+12px; padding:21px 16px 21px 16px">Add
+      <ion-icon name="md-basket"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-toolbar>
 </ion-header>
-
-
-<ion-content padding>
-  <h1>{{selectedItem.value}}</h1>
-
+<ion-content (ionScroll)="onScroll($event)">
+  <div padding>
+    <h2 style="color:#5b5b75">Teams</h2>
+  </div>
+  <ion-list no-padding>
+    <ion-item-sliding *ngFor="let team of teams | async">
+      <ion-item (click)="itemTapped($event, item)" detail-push>
+        <h1 *ngIf="item.isDone==false">{{item.value}}</h1>
+        <h1 *ngIf="item.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{item.value}}</h1>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" icon-only
+                (click)="removeItem(item.key)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+      <ion-item-options (ionSwipe)="doneItem(item.key, !item.isDone)" side="left">
+        <button ion-button *ngIf="!item.isDone" color="secondary"
+                (click)="doneItem(item.key, !item.isDone)">Done
+        </button>
+        <button ion-button *ngIf="item.isDone" color="dark"
+                (click)="doneItem(item.key, !item.isDone)">Undo
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

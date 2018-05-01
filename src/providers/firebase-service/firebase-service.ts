@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireList} from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
 
 /*
@@ -20,26 +20,35 @@ export class FirebaseServiceProvider {
   constructor(public afd: AngularFireDatabase) {
     this.itemsRef = this.afd.list('/weneedItems/');
     this.items = this.itemsRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
     });
   }
 
-  getItems(){
+  getItems() {
     return this.items;
   }
+
   addItem(newName) {
-    return this.itemsRef.push({ value: newName, isDone: false });
+    return this.itemsRef.push({value: newName, teams: {name: "tigers", amountOfPlayers: 4, isBeaten: false}});
   }
+
+  addTeam(game, newName) {
+    console.log(this.items[1].value);
+    return this.itemsRef.push({value: newName, teams: {name: "tigers", amountOfPlayers: 4, isBeaten: false}});
+  }
+
   updateItem(key, newText) {
-    return this.itemsRef.update(key, { value: newText });
+    return this.itemsRef.update(key, {value: newText});
   }
+
 //sets an item to done or undone
   doneItem(key, status) {
-    return this.itemsRef.update(key, { isDone: status });
+    return this.itemsRef.update(key, {isDone: status});
   }
+
   deleteItem(key) {
     this.itemsRef.remove(key);
   }
-  }
+}
 
 
