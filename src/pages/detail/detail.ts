@@ -18,6 +18,8 @@ export class DetailPage {
   private selectedItem: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider) {
+    this.selectedItem = navParams.get("item");
+
   }
 
   ionViewDidLoad() {
