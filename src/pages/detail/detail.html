@@ -7,11 +7,11 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{selectedGame.value}}</ion-title>
+    <ion-title>{{selectedGame.gameTitle}}</ion-title>
   </ion-navbar>
   <ion-toolbar>
   <ion-searchbar [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
-                 (ionCancel)="this.newTeam=''" placeholder="Team name..."></ion-searchbar>
+                 (ionCancel)="this.newTeam=''" placeholder="Team Name..."></ion-searchbar>
   <ion-buttons end>
     <button ion-button solid icon-right (click)="addTeam()" style="marginright:
 12px; padding:21px 16px 21px 16px">Add

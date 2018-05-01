@@ -29,17 +29,17 @@ export class FirebaseServiceProvider {
   }
 
   createGame(newName) {
-    return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    return this.gamesRef.push({gameTitle: newName, isDone: false, teams: []});
   }
 
   addTeam(selectedGame, newName) {
     // TODO: Add the Team to the Game
-    // return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    // return this.gamesRef.push({gameTitle: newName, isDone: false, teams: []});
     return this.gamesRef.push(null);
   }
 
   updateGame(key, newGameName) {
-    return this.gamesRef.update(key, {value: newGameName});
+    return this.gamesRef.update(key, {gameTitle: newGameName});
   }
 
   //sets a game to done or undone
