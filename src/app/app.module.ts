@@ -8,7 +8,16 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 
+const firebaseconfig = {
+  apiKey: "AIzaSyCNLMdjqkg1_IEhATcV2tlYsNz2_DIXf4A",
+  authDomain: "sportify-ea39b.firebaseapp.com",
+  databaseURL: "https://sportify-ea39b.firebaseio.com",
+  projectId: "sportify-ea39b",
+  storageBucket: "sportify-ea39b.appspot.com",
+  messagingSenderId: "542806684553"
+}
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +37,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FirebaseServiceProvider
   ]
 })
 export class AppModule {}
