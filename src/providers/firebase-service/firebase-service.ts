@@ -32,6 +32,12 @@ export class FirebaseServiceProvider {
     return this.gamesRef.push({value: newName, isDone: false, teams: []});
   }
 
+  addTeam(selectedGame, newName) {
+    // TODO: Add the Team to the Game
+    // return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    return this.gamesRef.push(null);
+  }
+
   updateGame(key, newGameName) {
     return this.gamesRef.update(key, {value: newGameName});
   }

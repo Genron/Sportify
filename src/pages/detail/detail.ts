@@ -42,11 +42,11 @@ export class DetailPage {
   }
 
   removeTeam(id) {
-    this.firebaseService.deleteItem(id);
+    this.firebaseService.deleteGame(id);
   }
 
   doneItem(key, status) {
-    this.firebaseService.doneItem(key, status);
+    this.firebaseService.gameDone(key, status);
   }
 
   itemTapped(event, team) {
@@ -64,7 +64,7 @@ export class DetailPage {
   }
 
   updateItem() {
-    this.firebaseService.updateGame(this.selectedItem.key, this.selectedItem.value).then(() => {
+    this.firebaseService.updateGame(this.selectedGame.key, this.selectedGame.value).then(() => {
       this.navCtrl.pop();
     });
   }
