@@ -21,19 +21,21 @@
     <ion-item-sliding *ngFor="let item of needItems | async">
       <ion-item (click)="itemTapped($event, item)" detail-push>
         <h1 *ngIf="item.isDone==false">{{item.value}}</h1>
-        <h1 *ngIf="item.isDone!=false" style="text-decoration: line-through;
-color:rgb(211, 211, 211)">{{item.value}}</h1>
+        <h1 *ngIf="item.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{item.value}}</h1>
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="danger" icon-only
-                (click)="removeItem(item.key)"><ion-icon name="trash"></ion-icon></button>
+                (click)="removeItem(item.key)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
       </ion-item-options>
-      <ion-item-options (ionSwipe)="doneItem(item.key, !item.isDone)"
-                        side="left">
+      <ion-item-options (ionSwipe)="doneItem(item.key, !item.isDone)" side="left">
         <button ion-button *ngIf="!item.isDone" color="secondary"
-                (click)="doneItem(item.key, !item.isDone)">Done</button>
+                (click)="doneItem(item.key, !item.isDone)">Done
+        </button>
         <button ion-button *ngIf="item.isDone" color="dark"
-                (click)="doneItem(item.key, !item.isDone)">Undo</button>
+                (click)="doneItem(item.key, !item.isDone)">Undo
+        </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

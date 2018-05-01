@@ -15,6 +15,7 @@ import {FirebaseServiceProvider} from './../../providers/firebase-service/fireba
   templateUrl: 'detail.html',
 })
 export class DetailPage {
+  private selectedItem: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider) {
   }
@@ -23,11 +24,11 @@ export class DetailPage {
     console.log('ionViewDidLoad DetailPage');
   }
 
-  // updateItem() {
-  //   this.firebaseService.updateItem(this.selectedItem.key, this.selectedItem.value).then(() => {
-  //     this.navCtrl.pop();
-  //   });
-  // }
+  updateItem() {
+    this.firebaseService.updateItem(this.selectedItem.key, this.selectedItem.value).then(() => {
+      this.navCtrl.pop();
+    });
+  }
 
 
 }
