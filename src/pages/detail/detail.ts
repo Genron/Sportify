@@ -26,8 +26,10 @@ export class DetailPage {
   @ViewChild(Content) content: Content;
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = navParams.get("item");
-
+    this.teams = this.firebaseService.getTeams(this.selectedGame);
   }
+
+
 
   addTeam() {
     if (this.newTeam.length === 0 || !this.newTeam.trim()) {

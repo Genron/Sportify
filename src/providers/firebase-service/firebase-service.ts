@@ -15,8 +15,11 @@ import {Observable} from 'rxjs/Observable';
 export class FirebaseServiceProvider {
 
   gamesRef: AngularFireList<any>;
-  teamsRef: AngularFireList<any>;
   games: Observable<any[]>;
+  teamsRef: AngularFireList<any>;
+  teams: Observable<any[]>;
+
+
 
   constructor(public afd: AngularFireDatabase) {
     this.gamesRef = this.afd.list('/games/');
@@ -26,20 +29,28 @@ export class FirebaseServiceProvider {
 
   }
 
+
   getGames() {
     return this.games;
   }
 
+  getTeams(selectedGame) {
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
+    return this.teamsRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    });
+  }
+
   createGame(newName) {
-    return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    return this.gamesRef.push({gameName: newName, isDone: false});
   }
 
   addTeam(selectedGame, newName) {
     // TODO: Add the Team to the Game
     // return this.gamesRef.push({value: newName, isDone: false, teams: []});
-    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/');
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
 
-    return this.teamsRef.push({teamName: newName});
+    return this.teamsRef.push({teamName: newName, isBeaten: false});
   }
 
   updateGame(key, newGameName) {

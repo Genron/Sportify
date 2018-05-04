@@ -20,7 +20,7 @@
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let game of availableGames | async">
       <ion-item (click)="gameTapped($event, game)" detail-push>
-        <h1 *ngIf="game.isDone==false">{{game.gameTitle}}</h1>
+        <h1 *ngIf="game.isDone==false">{{game.gameName}}</h1>
         <h1 *ngIf="game.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.value}}</h1>
       </ion-item>
       <ion-item-options side="right">
