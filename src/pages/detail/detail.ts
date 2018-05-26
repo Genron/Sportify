@@ -11,7 +11,6 @@ import {Keyboard} from "@ionic-native/keyboard";
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-detail',
@@ -35,10 +34,6 @@ export class DetailPage {
       e => console.log('onError: %s', e),
       () => console.log('onCompleted')
     );
-    // this.teams.forEach(value => values.push(value));
-    // console.log("currentSize " + values.length);
-    // this.isDisabled = !(this.currentSize % 2 === 0);
-    // console.log("isDisabled " + this.isDisabled);
   }
 
   addTeam() {
@@ -57,7 +52,6 @@ export class DetailPage {
     this.firebaseService.deleteTeam(id);
   }
 
-
   doneItem(key, status) {
     this.firebaseService.gameDone(key, status);
   }
@@ -69,8 +63,6 @@ export class DetailPage {
     });
     console.log("Hello");
   }
-
-
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
@@ -89,10 +81,4 @@ export class DetailPage {
   showTeams(event){
     this.teams
   }
-
-  changeDiabled(event){
-    this.isDisabled = !this.isDisabled;
-  }
-
-
 }
