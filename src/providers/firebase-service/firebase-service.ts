@@ -19,8 +19,6 @@ export class FirebaseServiceProvider {
   teamsRef: AngularFireList<any>;
   teams: Observable<any[]>;
 
-
-
   constructor(public afd: AngularFireDatabase) {
     this.gamesRef = this.afd.list('/games/');
     this.games = this.gamesRef.snapshotChanges().map(changes => {
@@ -28,7 +26,6 @@ export class FirebaseServiceProvider {
     });
 
   }
-
 
   getGames() {
     return this.games;

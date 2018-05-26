@@ -22,19 +22,23 @@ export class DetailPage {
 
   teams: Observable<any[]>;
   newTeam: any = '';
-  isDisabled: boolean;
+  isDisabled: boolean = true;
   currentSize: number;
 
   @ViewChild(Content) content: Content;
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = navParams.get("item");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
-    // let currSize;
-    let values = [];
-    this.teams.forEach(value => values.push(value));
-    console.log("currentSize " + values.length);
-    this.isDisabled = !(this.currentSize % 2 === 0);
-    console.log("isDisabled " + this.isDisabled);
+
+    this.teams.subscribe(
+      x => this.isDisabled = !(x.length % 2 === 0),
+      e => console.log('onError: %s', e),
+      () => console.log('onCompleted')
+    );
+    // this.teams.forEach(value => values.push(value));
+    // console.log("currentSize " + values.length);
+    // this.isDisabled = !(this.currentSize % 2 === 0);
+    // console.log("isDisabled " + this.isDisabled);
   }
 
   addTeam() {
@@ -47,7 +51,6 @@ export class DetailPage {
         this.content.scrollToBottom();
       });
     }
-
   }
 
   removeTeam(id) {
