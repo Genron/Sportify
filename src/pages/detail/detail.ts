@@ -30,7 +30,7 @@ export class DetailPage {
     this.teams = this.firebaseService.getTeams(this.selectedGame);
 
     this.teams.subscribe(
-      x => this.isDisabled = !(x.length % 2 === 0),
+      x => this.isDisabled = !(x.length % 2 === 0 && x.length !== 0),
       e => console.log('onError: %s', e),
       () => console.log('onCompleted')
     );

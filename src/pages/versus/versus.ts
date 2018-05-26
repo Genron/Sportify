@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Observable} from "rxjs/Observable";
 
 /**
  * Generated class for the VersusPage page.
@@ -14,8 +15,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'versus.html',
 })
 export class VersusPage {
+  teams: Observable<any[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.teams = navParams.get("attendingTeams");
   }
 
   ionViewDidLoad() {
