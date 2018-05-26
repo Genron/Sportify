@@ -1,18 +1,42 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
+    <ion-title><h1>Sportify<small> - Team up and Play</small></h1></ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="newGame" (keyup.enter)="addGame()"
+                   (ionCancel)="this.newGame=''" placeholder="New Game..."></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button solid icon-right (click)="addGame()" style="marginright:
+12px; padding:21px 16px 21px 16px">Add
+        <ion-icon name="md-basket"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+<ion-content (ionScroll)="onScroll($event)">
+  <div padding>
+    <h2 style="color:#5b5b75">Games</h2>
+  </div>
+  <ion-list no-padding>
+    <ion-item-sliding *ngFor="let game of availableGames | async">
+      <ion-item (click)="gameTapped($event, game)" detail-push>
+        <h1 *ngIf="game.isDone==false">{{game.gameName}}</h1>
+        <h1 *ngIf="game.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.value}}</h1>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" icon-only
+                (click)="removeGame(game.key)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+      <ion-item-options (ionSwipe)="gameDone(game.key, !game.isDone)" side="left">
+        <button ion-button *ngIf="!game.isDone" color="secondary"
+                (click)="gameDone(game.key, !game.isDone)">Done
+        </button>
+        <button ion-button *ngIf="game.isDone" color="dark"
+                (click)="gameDone(game.key, !game.isDone)">Undo
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
