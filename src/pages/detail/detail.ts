@@ -3,6 +3,7 @@ import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
+import {VersusPage} from "../versus/versus";
 
 
 /**
@@ -22,7 +23,6 @@ export class DetailPage {
   teams: Observable<any[]>;
   newTeam: any = '';
   isDisabled: boolean = true;
-  currentSize: number;
 
   @ViewChild(Content) content: Content;
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
@@ -78,7 +78,10 @@ export class DetailPage {
     this.keyboard.close();
   }
 
-  showTeams(event){
-    this.teams
+  startVersus(event){
+    this.navCtrl.push(VersusPage, {
+      attendingTeams: this.teams
+    });
+    console.log("To the versus page");
   }
 }

@@ -45,11 +45,10 @@ export class HomePage {
   }
 
   gameTapped(event, game) {
-    // That's right, we're pushing to ourselves!
     this.navCtrl.push(DetailPage, {
       item: game
     });
-    console.log("Hello");
+    console.log("To the detail page");
   }
 
 }

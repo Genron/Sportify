@@ -16,6 +16,7 @@ import {AngularFireModule} from 'angularfire2';
 
 import { Keyboard } from '@ionic-native/keyboard';
 import {DetailPage} from "../pages/detail/detail";
+import {VersusPage} from "../pages/versus/versus";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCNLMdjqkg1_IEhATcV2tlYsNz2_DIXf4A",
@@ -30,6 +31,7 @@ const firebaseConfig = {
     MyApp,
     HomePage,
     ListPage,
+    VersusPage,
     DetailPage
   ],
   imports: [
@@ -44,6 +46,7 @@ const firebaseConfig = {
     MyApp,
     HomePage,
     ListPage,
+    VersusPage,
     DetailPage
   ],
   providers: [
