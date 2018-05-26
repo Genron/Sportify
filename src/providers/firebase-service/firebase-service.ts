@@ -65,6 +65,10 @@ export class FirebaseServiceProvider {
   deleteGame(key) {
     this.gamesRef.remove(key);
   }
+
+  deleteTeam(key) {
+    this.teamsRef.remove(key);
+  }
 }
 
 
