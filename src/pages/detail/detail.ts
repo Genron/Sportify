@@ -51,8 +51,9 @@ export class DetailPage {
   }
 
   removeTeam(id) {
-    this.firebaseService.deleteGame(id);
+    this.firebaseService.deleteTeam(id);
   }
+
 
   doneItem(key, status) {
     this.firebaseService.gameDone(key, status);
