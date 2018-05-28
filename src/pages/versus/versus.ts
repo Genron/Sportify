@@ -17,6 +17,7 @@ import {Observable} from "rxjs/Observable";
 export class VersusPage {
   teams: Observable<any[]>;
   team: any[];
+  matches: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.teams = navParams.get("attendingTeams");
@@ -39,9 +40,16 @@ export class VersusPage {
       // console.log("Anzahl: " + opponents.length + " Teams: " + opponents[i].teamName);
       let myTeam = opponents.splice(i, 1)[0]; //Cut my team out of opponents => opponents has now all other teams except this team
       // console.log("Anzahl: " + opponents.length + " Teams: " + opponents[0].teamName);
-      console.log(opponents);
-      console.log(myTeam.teamName);
+      // console.log(opponents);
+      // console.log(myTeam.teamName);
+      let myTeamName = myTeam.teamName;
+      this.matches = [];
+      this.matches.push(myTeamName);
+      opponents.forEach(opponent => this.matches.push(opponent.teamName));
+      // opponents.forEach(opponent => this.matches.push(opponent.teamName));
+      console.log(this.matches);
     }
+
 
   }
 

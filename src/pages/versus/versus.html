@@ -9,10 +9,36 @@
   <ion-navbar>
     <ion-title>Versus</ion-title>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content (ionScroll)="onScroll($event)">
+  <div padding>
+    <h2 style="color:#5b5b75">Teams</h2>
+  </div>
+  <ion-list no-padding>
+    <ion-item-sliding *ngFor="let match of matches ">
+      <ion-item (click)="gameTapped($event, game)" detail-push>
+        <h1>{{match}}</h1>
 
-<ion-content padding>
-
+      </ion-item>
+      <!--<ion-item-options side="right">-->
+        <!--<button ion-button color="danger" icon-only-->
+                <!--(click)="removeGame(game.key)">-->
+          <!--<ion-icon name="trash"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-item-options>-->
+      <!--<ion-item-options (ionSwipe)="gameDone(game.key, !game.isDone)" side="left">-->
+        <!--<button ion-button *ngIf="!game.isDone" color="secondary"-->
+                <!--(click)="gameDone(game.key, !game.isDone)">Done-->
+        <!--</button>-->
+        <!--<button ion-button *ngIf="game.isDone" color="dark"-->
+                <!--(click)="gameDone(game.key, !game.isDone)">Undo-->
+        <!--</button>-->
+      <!--</ion-item-options>-->
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
+</ion-footer>
+
