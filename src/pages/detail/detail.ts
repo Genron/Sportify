@@ -22,7 +22,7 @@ export class DetailPage {
 
   teams: Observable<any[]>;
   newTeam: any = '';
-  // isDisabled: boolean = true;
+  isDisabled: boolean = true;
 
   @ViewChild(Content) content: Content;
 
@@ -32,7 +32,7 @@ export class DetailPage {
 
     this.teams.subscribe(
       x => {
-        // this.isDisabled = !(x.length % 2 === 0 && x.length !== 0);
+        this.isDisabled = x.length < 2;
         this.matchTeams(x)
       },
       e => console.log('onError: %s', e),
