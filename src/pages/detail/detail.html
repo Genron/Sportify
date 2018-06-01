@@ -26,7 +26,7 @@
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let team of teams | async">
-      <ion-item (click)="itemTapped($event, team)" detail-push>
+      <ion-item>
         <h1>{{team.teamName}}</h1>
       </ion-item>
       <ion-item-options (ionSwipe)="removeTeam(team.key)" side="right">
