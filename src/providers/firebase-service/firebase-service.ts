@@ -51,6 +51,13 @@ export class FirebaseServiceProvider {
     return this.teamsRef.push({teamName: newName, isBeaten: false});
   }
 
+  getMatches(selectedGame) {
+    this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
+    return this.matchesRef.snapshotChanges().map(changes => {
+      return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+    });
+  }
+
   addMatch(selectedGame, team1, team2) {
     console.log("Firebase addMatch-> Selected Game " + selectedGame + " Team1: " + team1 + " Team2: " + team2);
     // TODO: Add the Team to the Game
@@ -75,6 +82,11 @@ export class FirebaseServiceProvider {
 
   deleteTeam(key) {
     this.teamsRef.remove(key);
+  }
+
+  clearMatches(selectedGame) {
+    this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
+    this.matchesRef.remove().then(_ => console.log("Matches cleared"));
   }
 }
 

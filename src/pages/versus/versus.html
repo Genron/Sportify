@@ -16,9 +16,9 @@
     <h2 style="color:#5b5b75">Teams</h2>
   </div>
   <ion-list no-padding>
-    <ion-item-sliding *ngFor="let match of matches ">
+    <ion-item-sliding *ngFor="let match of matches | async">
       <ion-item (click)="gameTapped($event, game)" detail-push>
-        <h1>{{match}}</h1>
+        <h1>{{match.team1.teamName}} vs {{match.team2.teamName}}</h1>
 
       </ion-item>
       <!--<ion-item-options side="right">-->
