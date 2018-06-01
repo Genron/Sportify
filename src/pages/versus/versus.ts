@@ -52,4 +52,8 @@ export class VersusPage {
     this.firebaseService.updateMatchDraw(match);
 
   }
+
+  showRanking() {
+
+  }
 }

@@ -32,39 +32,10 @@
         <button ion-button color="secondary" (click)="teamWins(match, false)"> {{match.team2.teamName}} wins
         </button>
       </ion-item-options>
-
-      <!--<ion-item-options side="right">-->
-        <!--<button ion-button color="danger" icon-only-->
-                <!--(click)="removeTeam(team.key)">-->
-          <!--<ion-icon name="trash"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-item-options>-->
-      <!--<ion-item-options (ionSwipe)="doneItem(team.key, !team.isBeaten)" side="left">-->
-        <!--<button ion-button *ngIf="!team.isBeaten" color="secondary"-->
-                <!--(click)="doneItem(team.key, !team.isBeaten)">Done-->
-        <!--</button>-->
-        <!--<button ion-button *ngIf="team.isDone" color="dark"-->
-                <!--(click)="doneItem(team.key, !team.isBeaten)">Undo-->
-        <!--</button>-->
-      <!--</ion-item-options>-->
-      <!--<ion-item-options side="right">-->
-        <!--<button ion-button color="danger" icon-only-->
-                <!--(click)="removeGame(game.key)">-->
-          <!--<ion-icon name="trash"></ion-icon>-->
-        <!--</button>-->
-      <!--</ion-item-options>-->
-      <!--<ion-item-options (ionSwipe)="gameDone(game.key, !game.isDone)" side="left">-->
-        <!--<button ion-button *ngIf="!game.isDone" color="secondary"-->
-                <!--(click)="gameDone(game.key, !game.isDone)">Done-->
-        <!--</button>-->
-        <!--<button ion-button *ngIf="game.isDone" color="dark"-->
-                <!--(click)="gameDone(game.key, !game.isDone)">Undo-->
-        <!--</button>-->
-      <!--</ion-item-options>-->
     </ion-item-sliding>
   </ion-list>
 </ion-content>
 <ion-footer>
-  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
+  <button ion-button block [disabled]="isDisabled" (click)="showRanking()">Show Ranking</button>
 </ion-footer>
 
