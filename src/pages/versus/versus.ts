@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
+import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 
 
 /**
@@ -18,11 +19,15 @@ import {Keyboard} from "@ionic-native/keyboard";
 })
 export class VersusPage {
   teams: Observable<any[]>;
+  selectedGame: any;
   team: any[];
   matches: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private keyboard: Keyboard) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
+              private keyboard: Keyboard) {
     this.teams = navParams.get("attendingTeams");
+    this.selectedGame = navParams.get("selGame");
     this.teams.subscribe(
       x => this.matchTeams(x),
       e => console.log('onError: %s', e),
@@ -45,6 +50,7 @@ export class VersusPage {
         let match = allTeams[i].teamName + " vs. " + allTeams[j].teamName;
         console.log("Match: " + match);
         this.matches.push(match);
+        this.addMatch(allTeams[i], allTeams[j]);
       }
     }
 
@@ -60,4 +66,11 @@ export class VersusPage {
   onScroll(event) {
     this.keyboard.close();
   }
+
+  addMatch(team1, team2) {
+    console.log("versus.ts addMatch-> Selected Game " + this.selectedGame + " Team1: " + team1 + " Team2: " + team2);
+
+    this.firebaseService.addMatch(this.selectedGame, team1, team2);
+  }
+
 }

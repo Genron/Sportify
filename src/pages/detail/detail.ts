@@ -80,7 +80,8 @@ export class DetailPage {
 
   startVersus(event){
     this.navCtrl.push(VersusPage, {
-      attendingTeams: this.teams
+      attendingTeams: this.teams,
+      selGame: this.selectedGame
     });
     console.log("To the versus page");
   }

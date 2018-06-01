@@ -18,6 +18,7 @@ export class FirebaseServiceProvider {
   games: Observable<any[]>;
   teamsRef: AngularFireList<any>;
   teams: Observable<any[]>;
+  matchesRef: AngularFireList<any>;
 
   constructor(public afd: AngularFireDatabase) {
     this.gamesRef = this.afd.list('/games/');
@@ -48,6 +49,15 @@ export class FirebaseServiceProvider {
     this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
 
     return this.teamsRef.push({teamName: newName, isBeaten: false});
+  }
+
+  addMatch(selectedGame, team1, team2) {
+    console.log("Firebase addMatch-> Selected Game " + selectedGame + " Team1: " + team1 + " Team2: " + team2);
+    // TODO: Add the Team to the Game
+    // return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
+
+    return this.matchesRef.push({team1: team1, team2: team2, played: false});
   }
 
   updateGame(key, newGameName) {
