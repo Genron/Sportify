@@ -48,7 +48,7 @@ export class FirebaseServiceProvider {
     // return this.gamesRef.push({value: newName, isDone: false, teams: []});
     this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
 
-    return this.teamsRef.push({teamName: newName, isBeaten: false});
+    return this.teamsRef.push({teamName: newName, score: 0});
   }
 
   getMatches(selectedGame) {
@@ -87,6 +87,21 @@ export class FirebaseServiceProvider {
   clearMatches(selectedGame) {
     this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
     this.matchesRef.remove().then(_ => console.log("Matches cleared"));
+  }
+
+  updateMatch(selectedGame, match, leftTeamIsWinning) {
+    if (leftTeamIsWinning) {
+      this.teamsRef.update(match.team1.key, {score: match.team1.score + 3});
+    } else {
+      this.teamsRef.update(match.team2.key, {score: match.team2.score + 3});
+    }
+    this.matchesRef.update(match.key, {played: true});
+  }
+
+  updateMatchDraw(match) {
+    this.teamsRef.update(match.team1.key, {score: match.team1.score + 1})
+      .then(_ => this.teamsRef.update(match.team2.key, {score: match.team2.score + 1}));
+    this.matchesRef.update(match.key, {played: true});
   }
 }
 

@@ -17,20 +17,19 @@
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let match of matches | async">
-      <ion-item (click)="gameTapped($event, game)" detail-push>
+      <ion-item>
         <h1>{{match.team1.teamName}} vs {{match.team2.teamName}}</h1>
-
       </ion-item>
-      <ion-item-options (ionSwipe)= "teamWins(match, match.team1)" side="left">
-        <button ion-button color="secondary" (click)="teamWins(match, match.team1)"> {{match.team1.teamName}} wins
+      <ion-item-options (ionSwipe)= "teamWins(match, true)" side="left">
+        <button ion-button color="secondary" (click)="teamWins(match, true)"> {{match.team1.teamName}} wins
         </button>
         <button ion-button color="light" (click)="draw(match)"> draw
         </button>
       </ion-item-options>
-      <ion-item-options (ionSwipe)="teamWins(match, match.team2)" side="right">
+      <ion-item-options (ionSwipe)="teamWins(match, false)" side="right">
         <button ion-button color="light" (click)="draw(match)"> draw
         </button>
-        <button ion-button color="secondary" (click)="teamWins(match, match.team2)"> {{match.team2.teamName}} wins
+        <button ion-button color="secondary" (click)="teamWins(match, false)"> {{match.team2.teamName}} wins
         </button>
       </ion-item-options>
 

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
+import * as firebase from "firebase";
 
 
 /**
@@ -37,5 +38,18 @@ export class VersusPage {
 
   onScroll(event) {
     this.keyboard.close();
+  }
+
+  teamWins(match, leftTeamIsWinning) {
+    // leftTeamIsWinning -> boolean
+    console.log("Match: " + match + "Winning Team" + leftTeamIsWinning);
+    this.firebaseService.updateMatch(this.selectedGame, match, leftTeamIsWinning);
+
+  }
+
+  draw(match) {
+    console.log("Match: " + match );
+    this.firebaseService.updateMatchDraw(match);
+
   }
 }
