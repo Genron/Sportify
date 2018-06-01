@@ -40,17 +40,24 @@ export class VersusPage {
     let myTeamName;
     this.matches = [];
 
-    allTeams.forEach(team =>{
-      opponents = allTeams.slice();
-      myTeamName = opponents.splice(allTeams.indexOf(team), 1)[0].teamName;
-      this.matches.push(myTeamName);
-      opponents.forEach(opponent => this.matches.push(opponent.teamName));
-    });
+    for (let i = 0; i < allTeams.length; i++) {
+      for (let j = i+1; j < allTeams.length; j++) {
+        let match = allTeams[i].teamName + " vs. " + allTeams[j].teamName;
+        console.log("Match: " + match);
+        this.matches.push(match);
+      }
+    }
+
+    // allTeams.forEach(team =>{
+    //   opponents = allTeams.slice();
+    //   myTeamName = opponents.splice(allTeams.indexOf(team), 1)[0].teamName;
+    //   this.matches.push(myTeamName);
+    //   opponents.forEach(opponent => this.matches.push(opponent.teamName));
+    // });
       console.log(this.matches);
     }
 
   onScroll(event) {
     this.keyboard.close();
   }
-
 }
