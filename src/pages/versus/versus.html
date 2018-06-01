@@ -21,6 +21,33 @@
         <h1>{{match.team1.teamName}} vs {{match.team2.teamName}}</h1>
 
       </ion-item>
+      <ion-item-options (ionSwipe)= "teamWins(match, match.team1)" side="left">
+        <button ion-button color="secondary" (click)="teamWins(match, match.team1)"> {{match.team1.teamName}} wins
+        </button>
+        <button ion-button color="light" (click)="draw(match)"> draw
+        </button>
+      </ion-item-options>
+      <ion-item-options (ionSwipe)="teamWins(match, match.team2)" side="right">
+        <button ion-button color="light" (click)="draw(match)"> draw
+        </button>
+        <button ion-button color="secondary" (click)="teamWins(match, match.team2)"> {{match.team2.teamName}} wins
+        </button>
+      </ion-item-options>
+
+      <!--<ion-item-options side="right">-->
+        <!--<button ion-button color="danger" icon-only-->
+                <!--(click)="removeTeam(team.key)">-->
+          <!--<ion-icon name="trash"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-item-options>-->
+      <!--<ion-item-options (ionSwipe)="doneItem(team.key, !team.isBeaten)" side="left">-->
+        <!--<button ion-button *ngIf="!team.isBeaten" color="secondary"-->
+                <!--(click)="doneItem(team.key, !team.isBeaten)">Done-->
+        <!--</button>-->
+        <!--<button ion-button *ngIf="team.isDone" color="dark"-->
+                <!--(click)="doneItem(team.key, !team.isBeaten)">Undo-->
+        <!--</button>-->
+      <!--</ion-item-options>-->
       <!--<ion-item-options side="right">-->
         <!--<button ion-button color="danger" icon-only-->
                 <!--(click)="removeGame(game.key)">-->
