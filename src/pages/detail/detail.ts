@@ -25,15 +25,45 @@ export class DetailPage {
   isDisabled: boolean = true;
 
   @ViewChild(Content) content: Content;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = navParams.get("item");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
 
     this.teams.subscribe(
-      x => this.isDisabled = !(x.length % 2 === 0 && x.length !== 0),
+      x => {
+        this.isDisabled = x.length < 2;
+        this.matchTeams(x)
+      },
       e => console.log('onError: %s', e),
       () => console.log('onCompleted')
     );
+  }
+
+  matchTeams(allTeams) {
+    let opponents;
+    let myTeamName;
+
+    this.clearMatches();
+    for (let i = 0; i < allTeams.length; i++) {
+      for (let j = i + 1; j < allTeams.length; j++) {
+        let match = allTeams[i].teamName + " vs. " + allTeams[j].teamName;
+        console.log("Match: " + match);
+        this.addMatch(allTeams[i], allTeams[j]);
+      }
+    }
+  }
+
+  clearMatches() {
+    console.log("Clearing all matches");
+
+    this.firebaseService.clearMatches(this.selectedGame);
+  }
+
+  addMatch(team1, team2) {
+    console.log("versus.ts addMatch-> Selected Game " + this.selectedGame + " Team1: " + team1 + " Team2: " + team2);
+
+    this.firebaseService.addMatch(this.selectedGame, team1, team2);
   }
 
   addTeam() {
@@ -78,9 +108,10 @@ export class DetailPage {
     this.keyboard.close();
   }
 
-  startVersus(event){
+  startVersus(event) {
     this.navCtrl.push(VersusPage, {
-      attendingTeams: this.teams
+      attendingTeams: this.teams,
+      selGame: this.selectedGame
     });
     console.log("To the versus page");
   }

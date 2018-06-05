@@ -10,15 +10,15 @@
     <ion-title>{{selectedGame.gameName}}</ion-title>
   </ion-navbar>
   <ion-toolbar>
-  <ion-searchbar [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
-                 (ionCancel)="this.newTeam=''" placeholder="Team Name..."></ion-searchbar>
-  <ion-buttons end>
-    <button ion-button solid icon-right (click)="addTeam()" style="marginright:
+    <ion-searchbar [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
+                   (ionCancel)="this.newTeam=''" placeholder="Team Name..."></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button solid icon-right (click)="addTeam()" style="marginright:
 12px; padding:21px 16px 21px 16px">Add
-      <ion-icon name="md-basket"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-toolbar>
+        <ion-icon name="md-basket"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
   <div padding>
@@ -26,27 +26,18 @@
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let team of teams | async">
-      <ion-item (click)="itemTapped($event, team)" detail-push>
-        <h1 *ngIf="team.isBeaten==false">{{team.teamName}}</h1>
-        <h1 *ngIf="team.isBeaten!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{team.teamName}}</h1>
+      <ion-item>
+        <h1>{{team.teamName}}</h1>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options (ionSwipe)="removeTeam(team.key)" side="right">
         <button ion-button color="danger" icon-only
                 (click)="removeTeam(team.key)">
           <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options>
-      <ion-item-options (ionSwipe)="doneItem(team.key, !team.isBeaten)" side="left">
-        <button ion-button *ngIf="!team.isBeaten" color="secondary"
-                (click)="doneItem(team.key, !team.isBeaten)">Done
-        </button>
-        <button ion-button *ngIf="team.isDone" color="dark"
-                (click)="doneItem(team.key, !team.isBeaten)">Undo
         </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 </ion-content>
 <ion-footer>
-<button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
+  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
 </ion-footer>

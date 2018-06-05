@@ -25,7 +25,8 @@ const firebaseConfig = {
   projectId: "sportify-ea39b",
   storageBucket: "sportify-ea39b.appspot.com",
   messagingSenderId: "542806684553"
-}
+};
+
 @NgModule({
   declarations: [
     MyApp,
@@ -51,7 +52,6 @@ const firebaseConfig = {
   ],
   providers: [
     StatusBar,
-    SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseServiceProvider,
     StatusBar,

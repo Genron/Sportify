@@ -23,7 +23,7 @@
         <h1 *ngIf="game.isDone==false">{{game.gameName}}</h1>
         <h1 *ngIf="game.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.value}}</h1>
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options (ionSwipe)="removeGame(game.key)" side="right">
         <button ion-button color="danger" icon-only
                 (click)="removeGame(game.key)">
           <ion-icon name="trash"></ion-icon>
