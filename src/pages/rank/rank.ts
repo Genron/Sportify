@@ -20,9 +20,8 @@ export class RankPage {
   sortedTeams: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
-    this.selectedGame = this.navParams.get("game");
-    this.sortedTeams = this.navParams.get("aTeams");
-    this.attendingTeams = this.firebaseService.getTeams(this.selectedGame);
+    this.selectedGame = this.navParams.get("selGame");
+    this.sortedTeams = this.navParams.get("sortTeams");
 
     this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
   }

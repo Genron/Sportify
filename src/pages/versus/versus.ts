@@ -55,9 +55,8 @@ export class VersusPage {
 
   showRanking() {
     this.navCtrl.push(RankPage, {
-      playingTeams: this.teams,
-      game: this.selectedGame,
-      aTeams: this.teamsArray
+      selGame: this.selectedGame,
+      sortTeams: this.teamsArray
     });
     console.log("To the rank page");
   }
