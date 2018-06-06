@@ -21,10 +21,8 @@ import {RankPage} from "../rank/rank";
 export class VersusPage {
   teams: Observable<any[]>;
   selectedGame: any;
-  team: any[];
   matches: Observable<any[]>;
-  attTeams: any[];
-  newTry: any;
+  teamsArray: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
               private keyboard: Keyboard) {
@@ -32,12 +30,7 @@ export class VersusPage {
     this.matches = this.firebaseService.getMatches(this.selectedGame);
     this.teams = navParams.get("attendingTeams");
 
-
-    this.teams.subscribe(value => {
-      console.log("SOMETHING CHANGED IN TEAMS!!!!");
-      this.newTry = value as any[];
-      console.log(this.newTry);
-    });
+    this.teams.subscribe(value => this.teamsArray = value);
   }
 
   ionViewDidLoad() {
@@ -64,7 +57,7 @@ export class VersusPage {
     this.navCtrl.push(RankPage, {
       playingTeams: this.teams,
       game: this.selectedGame,
-      aTeams: this.newTry
+      aTeams: this.teamsArray
     });
     console.log("To the rank page");
   }
