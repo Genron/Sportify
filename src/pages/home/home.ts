@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Content} from 'ionic-angular';
+import {Content, NavController} from 'ionic-angular';
 
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from 'rxjs/Observable';
