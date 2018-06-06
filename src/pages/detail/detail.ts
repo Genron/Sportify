@@ -4,6 +4,7 @@ import {FirebaseServiceProvider} from './../../providers/firebase-service/fireba
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {VersusPage} from "../versus/versus";
+import {Subscription} from "rxjs";
 
 
 /**
@@ -23,6 +24,7 @@ export class DetailPage {
   teams: Observable<any[]>;
   newTeam: any = '';
   isDisabled: boolean = true;
+  subscription: Subscription;
 
   @ViewChild(Content) content: Content;
 
@@ -30,7 +32,7 @@ export class DetailPage {
     this.selectedGame = navParams.get("item");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
 
-    this.teams.subscribe(
+    this.subscription = this.teams.subscribe(
       allTeams => {
         this.isDisabled = allTeams.length < 2;
         this.matchTeams(allTeams)
@@ -86,14 +88,6 @@ export class DetailPage {
     this.firebaseService.gameDone(key, status);
   }
 
-  itemTapped(event, team) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(DetailPage, {
-      team: team
-    });
-    console.log("Hello");
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
@@ -109,6 +103,8 @@ export class DetailPage {
   }
 
   startVersus(event) {
+    this.subscription.unsubscribe();
+
     this.navCtrl.push(VersusPage, {
       attendingTeams: this.teams,
       selGame: this.selectedGame
