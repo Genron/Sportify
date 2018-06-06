@@ -30,44 +30,11 @@ export class RankPage {
     this.aaaTeams = this.navParams.get("aTeams");
     this.attendingTeams = this.firebaseService.getTeams(this.selectedGame);
 
-    console.log("TEAMS (HOPEFULLY AN ARRAY)");
-    console.log(this.aaaTeams);
-    console.log(this.aaaTeams[0]);
-
-
     this.aaaTeams.sort((a, b) => a.score < b.score ? 1 : -1);
-
-    // this.attTeams = this.attendingTeams
-    //   .forEach(value => {
-    //     value.sort((a, b) => a < b ? -1 : 1);
-    //     this.data = value;
-    //   });
-    // .subscribe((data) => {
-    //   data.sort((a, b) => {
-    //     return a < b ? -1 : 1;
-    //   });
-    //   this.data = data;
-    // });
-
-    //
-    //
-    // this.attendingTeams.forEach(value => {
-    //   this.attTeams.push(value);
-    // })
-
-
-    // this.attTeams.forEach(value => console.log(value));
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RankPage');
-    // this.attendingTeams
-    //   .subscribe(res => this.contacts = res as any[]);
-
-
-    // console.log(this.attTeams);
-    // console.log(this.data);
-    // console.log(this.contacts);
   }
 
 }

@@ -42,15 +42,6 @@ export class VersusPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VersusPage');
-
-    // this.attTeams = [];
-    // this.teams
-    //   .subscribe(team => this.attTeams = team as any[]);
-
-
-    // console.log(this.attTeams);
-    // console.log(this.data);
-    // console.log(this.attTeams);
   }
 
   onScroll(event) {
@@ -76,6 +67,6 @@ export class VersusPage {
       aTeams: this.newTry
     });
     console.log("To the rank page");
-
   }
+
 }
