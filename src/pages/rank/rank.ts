@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, Keyboard, NavController, NavParams} from 'ionic-angular';
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 import {Observable} from "rxjs/Observable";
@@ -9,7 +9,6 @@ import {Observable} from "rxjs/Observable";
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-rank',
@@ -18,11 +17,14 @@ import {Observable} from "rxjs/Observable";
 export class RankPage {
   attendingTeams: Observable<any[]>;
   selectedGame: any;
-  team: any[];
+  sortedTeams: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = this.navParams.get("game");
+    this.sortedTeams = this.navParams.get("aTeams");
     this.attendingTeams = this.firebaseService.getTeams(this.selectedGame);
+
+    this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
   }
 
   ionViewDidLoad() {

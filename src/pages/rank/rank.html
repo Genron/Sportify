@@ -15,7 +15,7 @@
     <h2 style="color:#5b5b75">Rank</h2>
   </div>
   <ion-list no-padding>
-    <ion-item-sliding *ngFor="let rankingTeam of attendingTeams | async">
+    <ion-item-sliding *ngFor="let rankingTeam of sortedTeams">
       <ion-item>
         <h1>{{rankingTeam.teamName}}</h1>
         <p>Score {{rankingTeam.score}}</p>
