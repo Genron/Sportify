@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 import * as firebase from "firebase";
+import {RankPage} from "../rank/rank";
 
 
 /**
@@ -54,6 +55,11 @@ export class VersusPage {
   }
 
   showRanking() {
+    this.navCtrl.push(RankPage, {
+      playingTeams: this.teams,
+      game: this.selectedGame
+    });
+    console.log("To the rank page");
 
   }
 }

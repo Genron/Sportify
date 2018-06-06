@@ -33,7 +33,7 @@ export class FirebaseServiceProvider {
   }
 
   getTeams(selectedGame) {
-    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
     return this.teamsRef.snapshotChanges().map(changes => {
       return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
     });
@@ -45,8 +45,8 @@ export class FirebaseServiceProvider {
 
   addTeam(selectedGame, newName) {
     // TODO: Add the Team to the Game
-    // return this.gamesRef.push({value: newName, isDone: false, teams: []});
-    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/teams/');
+    // return this.gamesRef.push({value: newName, isDone: false, attendingTeams: []});
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
 
     return this.teamsRef.push({teamName: newName, score: 0});
   }
@@ -61,7 +61,7 @@ export class FirebaseServiceProvider {
   addMatch(selectedGame, team1, team2) {
     console.log("Firebase addMatch-> Selected Game " + selectedGame + " Team1: " + team1 + " Team2: " + team2);
     // TODO: Add the Team to the Game
-    // return this.gamesRef.push({value: newName, isDone: false, teams: []});
+    // return this.gamesRef.push({value: newName, isDone: false, attendingTeams: []});
     this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
 
     return this.matchesRef.push({team1: team1, team2: team2, played: false});
