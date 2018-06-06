@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, Keyboard, NavController, NavParams} from 'ionic-angular';
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 import {Observable} from "rxjs/Observable";
+import {HomePage} from "../home/home";
 
 /**
  * Generated class for the RankPage page.
@@ -29,6 +30,11 @@ export class RankPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RankPage');
+  }
+
+  backToHome() {
+    this.firebaseService.gameDone(this.selectedGame.key, true);
+    this.navCtrl.push(HomePage);
   }
 
 }

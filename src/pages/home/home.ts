@@ -18,7 +18,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.availableGames = this.firebaseService.getGames();
-  }
+      }
 
   addGame() {
     if (this.newGame.length === 0 || !this.newGame.trim()) {
