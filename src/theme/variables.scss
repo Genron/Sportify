@@ -23,7 +23,10 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 
-
+$text-input-highlight-color-valid: #87b55c;
+$text-input-highlight-color-invalid: #b5505e;
+$text-input-md-highlight-color: #4cb5ab;
+$text-input-placeholder-color:#4cb5ab;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -86,3 +89,4 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
