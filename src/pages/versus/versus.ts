@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
-import * as firebase from "firebase";
 import {RankPage} from "../rank/rank";
 
 
@@ -24,17 +23,34 @@ export class VersusPage {
   selectedGame: any;
   team: any[];
   matches: Observable<any[]>;
-
+  attTeams: any[];
+  newTry: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
               private keyboard: Keyboard) {
     this.selectedGame = navParams.get("selGame");
     this.matches = this.firebaseService.getMatches(this.selectedGame);
     this.teams = navParams.get("attendingTeams");
+
+
+    this.teams.subscribe(value => {
+      console.log("SOMETHING CHANGED IN TEAMS!!!!");
+      this.newTry = value as any[];
+      console.log(this.newTry);
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VersusPage');
+
+    // this.attTeams = [];
+    // this.teams
+    //   .subscribe(team => this.attTeams = team as any[]);
+
+
+    // console.log(this.attTeams);
+    // console.log(this.data);
+    // console.log(this.attTeams);
   }
 
   onScroll(event) {
@@ -45,11 +61,10 @@ export class VersusPage {
     // leftTeamIsWinning -> boolean
     console.log("Match: " + match + "Winning Team" + leftTeamIsWinning);
     this.firebaseService.updateMatch(this.selectedGame, match, leftTeamIsWinning);
-
   }
 
   draw(match) {
-    console.log("Match: " + match );
+    console.log("Match: " + match);
     this.firebaseService.updateMatchDraw(match);
 
   }
@@ -57,7 +72,8 @@ export class VersusPage {
   showRanking() {
     this.navCtrl.push(RankPage, {
       playingTeams: this.teams,
-      game: this.selectedGame
+      game: this.selectedGame,
+      aTeams: this.newTry
     });
     console.log("To the rank page");
 
