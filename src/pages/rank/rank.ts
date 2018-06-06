@@ -21,7 +21,7 @@ export class RankPage {
   data: any;
   selectedGame: any;
   team: any[];
-  aaaTeams: any;
+  aaaTeams: any[];
 
   contacts: any[];
 
@@ -33,6 +33,10 @@ export class RankPage {
     console.log("TEAMS (HOPEFULLY AN ARRAY)");
     console.log(this.aaaTeams);
     console.log(this.aaaTeams[0]);
+
+
+    this.aaaTeams.sort((a, b) => a.score < b.score ? 1 : -1);
+
     // this.attTeams = this.attendingTeams
     //   .forEach(value => {
     //     value.sort((a, b) => a < b ? -1 : 1);
