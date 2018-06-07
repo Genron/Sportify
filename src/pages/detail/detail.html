@@ -5,21 +5,20 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar >
+  <ion-navbar>
     <ion-title>{{selectedGame.gameName}}</ion-title>
   </ion-navbar>
   <ion-toolbar>
     <ion-item style="background-color: transparent">
-      <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
+      <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newTeam"
+                 (keyup.enter)="addTeam()"
                  (ionCancel)="this.newTeam=''" placeholder="Teamname"></ion-input>
     </ion-item>
     <ion-buttons end>
-      <button ion-button  icon-center style="background-color: #4cb5ab; border-radius: 100%; padding: 10px; color: white " (click)="addTeam()">  <ion-icon name="add"></ion-icon>
+      <button ion-button icon-center
+              style="background-color: #4cb5ab; border-radius: 100%; padding: 10px; color: white " (click)="addTeam()">
+        <ion-icon name="add"></ion-icon>
       </button>
-      <!--<button ion-button solid icon-right (click)="addTeam()" style="marginright: 12px; padding:21px 16px 21px 16px">Add-->
-        <!--<ion-icon name="md-basket"></ion-icon>-->
-      <!--</button>-->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -42,5 +41,7 @@
   </ion-list>
 </ion-content>
 <ion-footer>
-  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
+  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">
+    <ion-icon name="play" style="zoom:1.5;"></ion-icon>
+  </button>
 </ion-footer>
