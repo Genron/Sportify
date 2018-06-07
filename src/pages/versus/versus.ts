@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 import {RankPage} from "../rank/rank";
+import {HomePage} from "../home/home";
 
 
 /**
@@ -71,5 +72,9 @@ export class VersusPage {
       // sortTeams: this.teamsArray
     });
     console.log("To the rank page");
+  }
+
+  toHome() {
+    this.navCtrl.push(HomePage);
   }
 }

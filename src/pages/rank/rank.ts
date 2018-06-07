@@ -64,6 +64,10 @@ export class RankPage {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
+  toHome() {
+    this.navCtrl.push(HomePage);
+  }
+
   backToHome() {
     this.firebaseService.gameDone(this.selectedGame.key, true);
     this.navCtrl.push(HomePage);

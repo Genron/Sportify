@@ -4,6 +4,7 @@ import {FirebaseServiceProvider} from './../../providers/firebase-service/fireba
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {VersusPage} from "../versus/versus";
+import {HomePage} from "../home/home";
 
 
 /**
@@ -70,5 +71,9 @@ export class DetailPage {
     this.navCtrl.push(VersusPage, {
       selGame: this.selectedGame
     }).then(_ => console.log("To the versus page"));
+  }
+
+  toHome() {
+    this.navCtrl.push(HomePage);
   }
 }

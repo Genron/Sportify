@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>{{selectedGame.gameName}}</ion-title>
+    <ion-title (click)="toHome()">{{selectedGame.gameName}}</ion-title>
   </ion-navbar>
   <ion-toolbar>
     <ion-item style="background-color: transparent">
