@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar onclick="console.log('BACK!')">
     <ion-title>Versus</ion-title>
   </ion-navbar>
 </ion-header>
@@ -25,16 +25,16 @@
           {{match.team1.teamName}} [ {{match.team1.score}} : {{match.team2.score}} ] {{match.team2.teamName}}
         </h1>
       </ion-item>
-      <ion-item-options (ionSwipe)="teamWins(match, true)" side="left">
-        <button ion-button color="secondary" (click)="teamWins(match, true)"> {{match.team1.teamName}} wins
+      <ion-item-options (ionSwipe)="logWin(match, true, false)" side="left">
+        <button ion-button color="secondary" (click)="logWin(match, true, false)"> {{match.team1.teamName}} wins
         </button>
-        <button ion-button color="light" (click)="draw(match)"> draw
+        <button ion-button color="light" (click)="logWin(match, true, true)"> draw
         </button>
       </ion-item-options>
-      <ion-item-options (ionSwipe)="teamWins(match, false)" side="right">
-        <button ion-button color="light" (click)="draw(match)"> draw
+      <ion-item-options (ionSwipe)="logWin(match, false, true)" side="right">
+        <button ion-button color="light" (click)="logWin(match, true, true)"> draw
         </button>
-        <button ion-button color="secondary" (click)="teamWins(match, false)"> {{match.team2.teamName}} wins
+        <button ion-button color="secondary" (click)="logWin(match, false, true)"> {{match.team2.teamName}} wins
         </button>
       </ion-item-options>
     </ion-item-sliding>

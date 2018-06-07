@@ -14,6 +14,7 @@ import {DetailPage} from "../detail/detail";
 export class HomePage {
   availableGames: Observable<any[]>;
   newGame: any = '';
+  subscriptions: any[] = [];
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
@@ -24,7 +25,8 @@ export class HomePage {
     if (this.newGame.length === 0 || !this.newGame.trim()) {
       console.log("empty");
     } else {
-      this.firebaseService.createGame(this.newGame).then(() => {
+      this.firebaseService.createGame(this.newGame)
+        .then(_ => {
         this.newGame = "";
         this.keyboard.close();
         this.content.scrollToBottom();
@@ -47,10 +49,14 @@ export class HomePage {
   gameTapped(event, game) {
     if (!game.isDone) {
       this.navCtrl.push(DetailPage, {
-        item: game
-      });
-      console.log("To the detail page");
+        selGame: game
+      }).then(_ => console.log("To the detail page"));
+    } else {
+      console.log("Game is done. Undo to access the game");
     }
   }
 
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 }

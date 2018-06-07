@@ -29,9 +29,9 @@
       <ion-item>
         <h1>{{team.teamName}}</h1>
       </ion-item>
-      <ion-item-options (ionSwipe)="removeTeam(team.key)" side="right">
+      <ion-item-options (ionSwipe)="removeTeam(team)" side="right">
         <button ion-button color="danger" icon-only
-                (click)="removeTeam(team.key)">
+                (click)="removeTeam(team)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
