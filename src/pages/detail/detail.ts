@@ -42,7 +42,6 @@ export class DetailPage {
       this.firebaseService.addTeam(this.selectedGame, this.newTeam)
         .then(_ => {
           this.newTeam = "";
-          this.keyboard.close();
           this.content.scrollToBottom();
         });
       this.firebaseService.clearPoints(this.selectedGame);
