@@ -87,27 +87,39 @@ export class FirebaseServiceProvider {
     this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
     this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
 
+    let team1score = 0;
+    let team2score = 0;
     if (leftPoint && rightPoint) {
       console.log(match.team1.teamName + " and " + match.team2.teamName + " wins");
-      this.matchesRef.update(match.key, {team1: {key: match.team1.key, teamName: match.team1.teamName, score: 1}})
-        .then(_ => this.matchesRef.update(match.key, {
-          team2: {
-            key: match.team2.key,
-            teamName: match.team2.teamName,
-            score: 1
-          }
-        }));
+      team1score = 1;
+      team2score = 1;
     } else {
       if (leftPoint) {
         console.log(match.team1.teamName + " wins");
-        this.matchesRef.update(match.key, {team1: {key: match.team1.key, teamName: match.team1.teamName, score: 3}});
+        team1score = 3;
+        team2score = 0;
       } else {
         console.log(match.team2.teamName + " wins");
-        this.matchesRef.update(match.key, {team2: {key: match.team2.key, teamName: match.team2.teamName, score: 3}});
+        team1score = 0;
+        team2score = 3;
       }
     }
 
-    this.matchesRef.update(match.key, {played: true});
+    this.matchesRef.update(
+      match.key, {
+        team1: {
+          key: match.team1.key,
+          teamName: match.team1.teamName,
+          score: team1score
+        },
+        team2: {
+          key: match.team2.key,
+          teamName: match.team2.teamName,
+          score: team2score
+        },
+        played: true
+      }
+    );
   }
 
   clearPoints(selectedGame) {
