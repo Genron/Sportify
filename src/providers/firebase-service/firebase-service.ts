@@ -86,34 +86,27 @@ export class FirebaseServiceProvider {
   updateMatch(selectedGame, match, leftPoint, rightPoint) {
     this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
     this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
-    this.matchesRef.update(match.key, {played: true});
 
-    let ref = this.afd.list('/games/' + selectedGame.key + '/matches/' + match.key);
     if (leftPoint && rightPoint) {
       console.log(match.team1.teamName + " and " + match.team2.teamName + " wins");
-      this.teamsRef.update(match.team1.key, {score: match.team1.score + 1})
-        .then(_ => this.teamsRef.update(match.team2.key, {score: match.team2.score + 1}));
+      this.matchesRef.update(match.key, {team1: {key: match.team1.key, teamName: match.team1.teamName, score: 1}})
+        .then(_ => this.matchesRef.update(match.key, {
+          team2: {
+            key: match.team2.key,
+            teamName: match.team2.teamName,
+            score: 1
+          }
+        }));
     } else {
       if (leftPoint) {
         console.log(match.team1.teamName + " wins");
-        this.teamsRef.update(match.team1.key, {score: match.team1.score + 3});
+        this.matchesRef.update(match.key, {team1: {key: match.team1.key, teamName: match.team1.teamName, score: 3}});
       } else {
         console.log(match.team2.teamName + " wins");
-        this.teamsRef.update(match.team2.key, {score: match.team2.score + 3});
+        this.matchesRef.update(match.key, {team2: {key: match.team2.key, teamName: match.team2.teamName, score: 3}});
       }
     }
 
-    // let newScore = team.score;
-    // newScore += 50;
-    // console.log(newScore);
-    // this.teamsRef.update(team.key, {score: newScore});
-    // this.matchesRef.update(match.key, {played: true})
-    //   .then(_ => this.matchesRef.update(match.team1.key, {score: 30}));
-  }
-
-  updateMatchDraw(match) {
-    this.teamsRef.update(match.team1.key, {score: match.team1.score + 1})
-      .then(_ => this.teamsRef.update(match.team2.key, {score: match.team2.score + 1}));
     this.matchesRef.update(match.key, {played: true});
   }
 
