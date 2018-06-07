@@ -21,7 +21,7 @@
         <h1 *ngIf="!match.played">
           {{match.team1.teamName}} [ - : - ] {{match.team2.teamName}}
         </h1>
-        <h1 *ngIf="match.played">
+        <h1 *ngIf="match.played" style="color:rgb(211, 211, 211)">
           {{match.team1.teamName}} [ {{match.team1.score}} : {{match.team2.score}} ] {{match.team2.teamName}}
         </h1>
       </ion-item>
