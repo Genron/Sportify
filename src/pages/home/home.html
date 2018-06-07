@@ -1,17 +1,22 @@
 <ion-header>
   <ion-navbar [hideBackButton]="true">
     <ion-title style="background-color:  #4cb5ab">
+      <!--<ion-img width="80" height="80" src="icon.png"></ion-img>-->
       <h1 style="color: white">Sportify</h1>
-      <h3 style="color: white; font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">Team up and Play</h3>
+      <h3 style="color: white; font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">Team up and
+        Play</h3>
     </ion-title>
   </ion-navbar>
-  <ion-toolbar >
-  <ion-item style="background-color: transparent">
-    <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newGame" (keyup.enter)="addGame()"
-               (ionCancel)="this.newGame=''"  placeholder="Gamename"></ion-input>
-  </ion-item>
+  <ion-toolbar>
+    <ion-item style="background-color: transparent">
+      <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newGame"
+                 (keyup.enter)="addGame()"
+                 (ionCancel)="this.newGame=''" placeholder="Gamename"></ion-input>
+    </ion-item>
     <ion-buttons end>
-      <button ion-button  icon-center style="background-color: #4cb5ab; border-radius: 100%; padding: 10px; color: white " (click)="addGame()">  <ion-icon name="add"></ion-icon>
+      <button ion-button icon-only
+              style="background-color: #4cb5ab; border-radius: 50%; width: 3em; height: 3em; color: white " (click)="addGame()">
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -33,11 +38,13 @@
         </button>
       </ion-item-options>
       <ion-item-options (ionSwipe)="gameDone(game.key, !game.isDone)" side="left">
-        <button ion-button *ngIf="!game.isDone" color="secondary"
-                (click)="gameDone(game.key, !game.isDone)">Done
+        <button ion-button *ngIf="!game.isDone" color="secondary" icon-only
+                (click)="gameDone(game.key, !game.isDone)">
+          <ion-icon name="checkmark"></ion-icon>
         </button>
-        <button ion-button *ngIf="game.isDone" color="dark"
-                (click)="gameDone(game.key, !game.isDone)">Undo
+        <button ion-button *ngIf="game.isDone" color="dark" icon-only
+                (click)="gameDone(game.key, !game.isDone)">
+          <ion-icon name="undo"></ion-icon>
         </button>
       </ion-item-options>
     </ion-item-sliding>

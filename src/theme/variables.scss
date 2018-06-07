@@ -38,10 +38,12 @@ $text-input-placeholder-color:#4cb5ab;
 
 $colors: (
   primary:    #4cb5ab,
-  secondary:  #32db64,
-  danger:     #f53d3d,
+  //secondary:  #32db64,
+  secondary:  #4cb5ab,
+  //danger:     #f53d3d,
+  danger: #f56265,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #333
 );
 
 
