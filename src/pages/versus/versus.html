@@ -14,7 +14,7 @@
 <ion-content (ionScroll)="onScroll($event)">
   <div>
     <h2 class="alignleft">Matches</h2>
-    <h2 class="alignright">{{matchesPlayed}} / {{allMatches}}</h2>
+    <h2 class="alignright"><small>{{matchesPlayed}}/{{allMatches}}</small></h2>
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let match of matches | async">

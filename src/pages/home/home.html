@@ -26,7 +26,7 @@
 <ion-content (ionScroll)="onScroll($event)">
   <div>
     <h2 class="alignleft">Games</h2>
-    <h2 class="alignright">{{doneGames}} / {{amountOfGames}}</h2>
+    <h2 class="alignright"><small>{{doneGames}}/{{amountOfGames}}</small></h2>
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let game of availableGames | async">

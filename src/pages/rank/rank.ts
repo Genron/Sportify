@@ -21,10 +21,12 @@ export class RankPage {
   sortedTeams: any[] = [];
   subscriptions: any[] = [];
   teamsMap = new Map();
+  gameDone: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = this.navParams.get("selGame");
     this.matches = this.firebaseService.getMatches(this.selectedGame);
+    this.gameDone = this.navParams.get("allMatchesDone");
   }
 
   ionViewDidLoad() {
@@ -78,7 +80,7 @@ export class RankPage {
   }
 
   backToHome() {
-    this.firebaseService.gameDone(this.selectedGame.key, true);
+    this.firebaseService.gameDone(this.selectedGame.key, this.gameDone);
     this.navCtrl.push(HomePage);
   }
 }

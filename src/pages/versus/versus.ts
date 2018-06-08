@@ -23,7 +23,6 @@ export class VersusPage {
   teams: Observable<any[]>;
   selectedGame: any;
   matches: Observable<any[]>;
-  teamsArray: any;
   subscriptions: any[] = [];
   matchesPlayed: number;
   allMatches: number;
@@ -82,7 +81,7 @@ export class VersusPage {
   showRanking() {
     this.navCtrl.push(RankPage, {
       selGame: this.selectedGame,
-      // sortTeams: this.teamsArray
+      allMatchesDone: this.matchesPlayed === this.allMatches
     });
     console.log("To the rank page");
   }
