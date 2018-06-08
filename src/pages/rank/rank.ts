@@ -53,11 +53,17 @@ export class RankPage {
       this.sortedTeams = [];
       this.teamsMap.forEach(team => this.sortedTeams.push(team));
       this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
+
+      let rank = 1;
       for (let i = 0; i < this.sortedTeams.length; i++) {
-        let name = this.sortedTeams[i].teamName;
-        let scor = this.sortedTeams[i].score;
-        let plac = i + 1;
-        this.sortedTeams[i] = {rank: plac, teamName: name, score: scor};
+        let teamName = this.sortedTeams[i].teamName;
+        let score = this.sortedTeams[i].score;
+        let actualRank = rank++; // Incriese the rank (for when all teams have different points)
+        if (i > 0 && this.sortedTeams[i - 1].score === score) {
+          actualRank = rank - 2; // Get the previous rank
+          rank--; // Decrease the count, thus there is multiple times the same rank
+        }
+        this.sortedTeams[i] = {rank: actualRank, teamName: teamName, score: score};
       }
       this.sortedTeams.forEach(team => console.log(team));
     }));
