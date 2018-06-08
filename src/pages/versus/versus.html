@@ -6,7 +6,9 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title (click)="toHome()" style="font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">{{selectedGame.gameName}}</ion-title>
+    <ion-title (click)="toHome()" style="font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">
+      {{selectedGame.gameName}}
+    </ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
@@ -24,15 +26,17 @@
         </h1>
       </ion-item>
       <ion-item-options (ionSwipe)="logWin(match, true, false)" side="left">
-        <button ion-button color="secondary" (click)="logWin(match, true, false)"> {{match.team1.teamName}} wins
+        <button ion-button color="secondary" (click)="logWin(match, true, false)" style="color: white">
+          {{match.team1.teamName}} wins
         </button>
-        <button ion-button color="light" (click)="logWin(match, true, true)"> draw
+        <button ion-button color="light" (click)="logWin(match, true, true)" style="color: white"> draw
         </button>
       </ion-item-options>
       <ion-item-options (ionSwipe)="logWin(match, false, true)" side="right">
-        <button ion-button color="light" (click)="logWin(match, true, true)"> draw
+        <button ion-button color="light" (click)="logWin(match, true, true)" style="color: white"> draw
         </button>
-        <button ion-button color="secondary" (click)="logWin(match, false, true)"> {{match.team2.teamName}} wins
+        <button ion-button color="secondary" (click)="logWin(match, false, true)" style="color: white">
+          {{match.team2.teamName}} wins
         </button>
       </ion-item-options>
     </ion-item-sliding>
