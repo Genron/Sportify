@@ -40,7 +40,7 @@
     </ion-item-sliding>
   </ion-list>
 </ion-content>
-<ion-footer>
+<ion-footer (click)="showNoTeamToast()">
   <button ion-button block [disabled]="isDisabled" (click)="startVersus()">
     <ion-icon name="play" style="zoom:1.5;"></ion-icon>
   </button>

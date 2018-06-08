@@ -17,7 +17,7 @@
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let match of matches | async">
-      <ion-item style="text-align: center" detail-push>
+      <ion-item  style="text-align: center" detail-push (click)="showSlideToast()">
         <h1 *ngIf="!match.played">
           {{match.team1.teamName}} [ - : - ] {{match.team2.teamName}}
         </h1>
