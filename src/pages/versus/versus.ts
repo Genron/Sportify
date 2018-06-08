@@ -25,9 +25,11 @@ export class VersusPage {
   matches: Observable<any[]>;
   teamsArray: any;
   subscriptions: any[] = [];
+  matchesPlayed: number;
+  allMatches: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
-              private keyboard: Keyboard,  private toastCtrl: ToastController) {
+              private keyboard: Keyboard, private toastCtrl: ToastController) {
     this.selectedGame = navParams.get("selGame");
 
     this.teams = this.firebaseService.getTeams(this.selectedGame);
@@ -56,7 +58,16 @@ export class VersusPage {
 
   ionViewWillEnter() {
     let matchesArray = [];
-    this.subscriptions.push(this.matches.subscribe(allMatches => matchesArray = allMatches));
+    this.subscriptions.push(this.matches.subscribe(allMatches => {
+      matchesArray = allMatches;
+      this.allMatches = matchesArray.length;
+      this.matchesPlayed = 0;
+      matchesArray.forEach(match => {
+        if (match.played) {
+          this.matchesPlayed++;
+        }
+      })
+    }));
     this.subscriptions.push(this.teams.subscribe(allTeams => {
       if (matchesArray.length === 0) {
         this.matchTeams(allTeams);

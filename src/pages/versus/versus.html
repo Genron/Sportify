@@ -12,8 +12,9 @@
   </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
-  <div padding>
-    <h2 style="color:#5b5b75">Matches</h2>
+  <div>
+    <h2 class="alignleft">Matches</h2>
+    <h2 class="alignright">{{matchesPlayed}} / {{allMatches}}</h2>
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let match of matches | async">

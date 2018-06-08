@@ -23,8 +23,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
-  <div padding>
-    <h2 style="color:#5b5b75">Teams</h2>
+  <div>
+    <h2 class="alignleft">Teams</h2>
+    <h2 class="alignright">{{amountOfTeams}}</h2>
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let team of teams | async">

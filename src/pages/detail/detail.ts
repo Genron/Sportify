@@ -25,6 +25,7 @@ export class DetailPage {
   newTeam: any = '';
   isDisabled: boolean = true;
   subscriptions: any[] = [];
+  amountOfTeams: number = 0;
 
   @ViewChild(Content) content: Content;
 
@@ -61,6 +62,7 @@ export class DetailPage {
   ionViewWillEnter() {
     this.subscriptions.push(this.teams.subscribe(allTeams => {
       this.isDisabled = allTeams.length < 2;
+      this.amountOfTeams = allTeams.length;
       console.log("changed disabled to: " + this.isDisabled);
     }));
   }

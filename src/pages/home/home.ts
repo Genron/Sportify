@@ -15,6 +15,9 @@ export class HomePage {
   availableGames: Observable<any[]>;
   newGame: any = '';
   subscriptions: any[] = [];
+  amountOfGames: number = 0;
+  doneGames: number = 0;
+
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
@@ -59,7 +62,15 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-
+    this.subscriptions.push(this.availableGames.subscribe(games => {
+      this.doneGames = 0;
+      games.forEach(game => {
+        if (game.isDone) {
+          this.doneGames++;
+        }
+      });
+      this.amountOfGames = games.length;
+    }));
   }
 
   ionViewWillLeave() {

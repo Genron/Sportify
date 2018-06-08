@@ -24,8 +24,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content (ionScroll)="onScroll($event)">
-  <div padding>
-    <h2 style="color:#5b5b75">Games</h2>
+  <div>
+    <h2 class="alignleft">Games</h2>
+    <h2 class="alignright">{{doneGames}} / {{amountOfGames}}</h2>
   </div>
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let game of availableGames | async">
