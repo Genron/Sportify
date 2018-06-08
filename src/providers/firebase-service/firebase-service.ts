@@ -39,15 +39,13 @@ export class FirebaseServiceProvider {
   }
 
   createGame(newName) {
-    return this.gamesRef.push({gameName: newName, isDone: false});
+    return this.gamesRef.push({gameName: newName, isDone: false}).then(_ => console.log("Game created"));
   }
 
   addTeam(selectedGame, newName) {
-    // TODO: Add the Team to the Game
-    // return this.gamesRef.push({value: newName, isDone: false, attendingTeams: []});
     this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
-
-    return this.teamsRef.push({teamName: newName, score: 0});
+    return this.teamsRef.push({teamName: newName, score: 0}).then(_ => console.log("Team added"));
+    ;
   }
 
   getMatches(selectedGame) {
@@ -58,12 +56,9 @@ export class FirebaseServiceProvider {
   }
 
   addMatch(selectedGame, team1, team2) {
-    console.log("Firebase addMatch-> Selected Game " + selectedGame + " Team1: " + team1 + " Team2: " + team2);
-    // TODO: Add the Team to the Game
-    // return this.gamesRef.push({value: newName, isDone: false, attendingTeams: []});
     this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
-
-    return this.matchesRef.push({team1: team1, team2: team2, played: false});
+    return this.matchesRef.push({team1: team1, team2: team2, played: false})
+      .then(_ => console.log("Match added"));
   }
 
   updateGame(key, newGameName) {
@@ -76,11 +71,11 @@ export class FirebaseServiceProvider {
   }
 
   deleteGame(key) {
-    this.gamesRef.remove(key);
+    this.gamesRef.remove(key).then(_ => console.log("Game removed"));
   }
 
-  deleteTeam(key) {
-    this.teamsRef.remove(key);
+  deleteTeam(team) {
+    this.teamsRef.remove(team.key).then(_ => console.log("Team removed"));
   }
 
   clearMatches(selectedGame) {
@@ -88,19 +83,61 @@ export class FirebaseServiceProvider {
     this.matchesRef.remove().then(_ => console.log("Matches cleared"));
   }
 
-  updateMatch(selectedGame, match, leftTeamIsWinning) {
-    if (leftTeamIsWinning) {
-      this.teamsRef.update(match.team1.key, {score: match.team1.score + 3});
+  updateMatch(selectedGame, match, leftPoint, rightPoint) {
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
+    this.matchesRef = this.afd.list('/games/' + selectedGame.key + '/matches/');
+
+    let team1score = 0;
+    let team2score = 0;
+    if (leftPoint && rightPoint) {
+      console.log(match.team1.teamName + " and " + match.team2.teamName + " wins");
+      team1score = 1;
+      team2score = 1;
     } else {
-      this.teamsRef.update(match.team2.key, {score: match.team2.score + 3});
+      if (leftPoint) {
+        console.log(match.team1.teamName + " wins");
+        team1score = 3;
+        team2score = 0;
+      } else {
+        console.log(match.team2.teamName + " wins");
+        team1score = 0;
+        team2score = 3;
+      }
     }
-    this.matchesRef.update(match.key, {played: true});
+
+    this.matchesRef.update(
+      match.key, {
+        team1: {
+          key: match.team1.key,
+          teamName: match.team1.teamName,
+          score: team1score
+        },
+        team2: {
+          key: match.team2.key,
+          teamName: match.team2.teamName,
+          score: team2score
+        },
+        played: true
+      }
+    );
   }
 
-  updateMatchDraw(match) {
-    this.teamsRef.update(match.team1.key, {score: match.team1.score + 1})
-      .then(_ => this.teamsRef.update(match.team2.key, {score: match.team2.score + 1}));
-    this.matchesRef.update(match.key, {played: true});
+  clearPoints(selectedGame) {
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
+
+    let subscription = this.getTeams(selectedGame).subscribe(allTeams => {
+      allTeams.forEach(team => {
+        if (team.score !== 0) {
+          this.teamsRef.update(team.key, {score: 0})
+            .then(_ => console.log(team.teamName + " cleared score"));
+        }
+      })
+    });
+
+    setTimeout(_ => {
+      subscription.unsubscribe();
+      console.log("Points cleared");
+    }, 500);
   }
 }
 

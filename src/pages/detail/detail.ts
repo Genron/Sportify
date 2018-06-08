@@ -4,6 +4,7 @@ import {FirebaseServiceProvider} from './../../providers/firebase-service/fireba
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {VersusPage} from "../versus/versus";
+import {HomePage} from "../home/home";
 
 
 /**
@@ -23,85 +24,43 @@ export class DetailPage {
   teams: Observable<any[]>;
   newTeam: any = '';
   isDisabled: boolean = true;
+  subscriptions: any[] = [];
 
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
-    this.selectedGame = navParams.get("item");
+    this.selectedGame = navParams.get("selGame");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
 
-    this.teams.subscribe(
-      allTeams => {
-        this.isDisabled = allTeams.length < 2;
-        this.matchTeams(allTeams)
-      },
-      e => console.log('onError: %s', e),
-      () => console.log('onCompleted')
-    );
-  }
-
-  matchTeams(allTeams) {
-    let opponents;
-    let myTeamName;
-
-    this.clearMatches();
-    for (let i = 0; i < allTeams.length; i++) {
-      for (let j = i + 1; j < allTeams.length; j++) {
-        let match = allTeams[i].teamName + " vs. " + allTeams[j].teamName;
-        console.log("Match: " + match);
-        this.addMatch(allTeams[i], allTeams[j]);
-      }
-    }
-  }
-
-  clearMatches() {
-    console.log("Clearing all matches");
-
-    this.firebaseService.clearMatches(this.selectedGame);
-  }
-
-  addMatch(team1, team2) {
-    console.log("versus.ts addMatch-> Selected Game " + this.selectedGame + " Team1: " + team1 + " Team2: " + team2);
-
-    this.firebaseService.addMatch(this.selectedGame, team1, team2);
+    this.subscriptions.push(this.teams.subscribe(allTeams => this.isDisabled = allTeams.length < 2));
   }
 
   addTeam() {
     if (this.newTeam.length === 0 || !this.newTeam.trim()) {
       console.log("empty");
     } else {
-      this.firebaseService.addTeam(this.selectedGame, this.newTeam).then(() => {
-        this.newTeam = "";
-        this.keyboard.close();
-        this.content.scrollToBottom();
-      });
+      this.firebaseService.clearMatches(this.selectedGame);
+      this.firebaseService.addTeam(this.selectedGame, this.newTeam)
+        .then(_ => {
+          this.newTeam = "";
+          this.content.scrollToBottom();
+        });
+      this.firebaseService.clearPoints(this.selectedGame);
     }
   }
 
-  removeTeam(id) {
-    this.firebaseService.deleteTeam(id);
-  }
-
-  doneItem(key, status) {
-    this.firebaseService.gameDone(key, status);
-  }
-
-  itemTapped(event, team) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(DetailPage, {
-      team: team
-    });
-    console.log("Hello");
+  removeTeam(team) {
+    this.firebaseService.clearMatches(this.selectedGame);
+    this.firebaseService.deleteTeam(team);
+    this.firebaseService.clearPoints(this.selectedGame);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
 
-  updateItem() {
-    this.firebaseService.updateGame(this.selectedGame.key, this.selectedGame.value).then(() => {
-      this.navCtrl.pop();
-    });
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   onScroll(event) {
@@ -110,9 +69,11 @@ export class DetailPage {
 
   startVersus(event) {
     this.navCtrl.push(VersusPage, {
-      attendingTeams: this.teams,
       selGame: this.selectedGame
-    });
-    console.log("To the versus page");
+    }).then(_ => console.log("To the versus page"));
+  }
+
+  toHome() {
+    this.navCtrl.push(HomePage);
   }
 }

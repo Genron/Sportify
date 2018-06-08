@@ -5,17 +5,19 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>{{selectedGame.gameName}}</ion-title>
+    <ion-title (click)="toHome()" style="font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">{{selectedGame.gameName}}</ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="newTeam" (keyup.enter)="addTeam()"
-                   (ionCancel)="this.newTeam=''" placeholder="Team Name..."></ion-searchbar>
+    <ion-item style="background-color: transparent">
+      <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newTeam"
+                 (keyup.enter)="addTeam()"
+                 (ionCancel)="this.newTeam=''" placeholder="Teamname"></ion-input>
+    </ion-item>
     <ion-buttons end>
-      <button ion-button solid icon-right (click)="addTeam()" style="marginright:
-12px; padding:21px 16px 21px 16px">Add
-        <ion-icon name="md-basket"></ion-icon>
+      <button ion-button icon-only
+              style="background-color: #4cb5ab; border-radius: 50%; width: 3em; height: 3em; color: white " (click)="addTeam()">
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -29,9 +31,9 @@
       <ion-item>
         <h1>{{team.teamName}}</h1>
       </ion-item>
-      <ion-item-options (ionSwipe)="removeTeam(team.key)" side="right">
+      <ion-item-options (ionSwipe)="removeTeam(team)" side="right">
         <button ion-button color="danger" icon-only
-                (click)="removeTeam(team.key)">
+                (click)="removeTeam(team)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
@@ -39,5 +41,7 @@
   </ion-list>
 </ion-content>
 <ion-footer>
-  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">Start Game</button>
+  <button ion-button block [disabled]="isDisabled" (click)="startVersus()">
+    <ion-icon name="play" style="zoom:1.5;"></ion-icon>
+  </button>
 </ion-footer>

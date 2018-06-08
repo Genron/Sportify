@@ -23,7 +23,10 @@ $app-direction: ltr;
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
 
-
+$text-input-highlight-color-valid: #FFCB6B;
+$text-input-highlight-color-invalid: #FA6974;
+$text-input-md-highlight-color: #4cb5ab;
+$text-input-placeholder-color:#4cb5ab;
 
 // Named Color Variables
 // --------------------------------------------------
@@ -34,11 +37,13 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
+  primary:    #4cb5ab,
+  //secondary:  #32db64,
+  secondary:  #FFCB6B ,
+  //danger:     #f53d3d,
+  danger:     #FA6974,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #333
 );
 
 
@@ -86,3 +91,13 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+h1 {
+  font-size: 1.25em !important;
+}
+
+h2 {
+  font-weight: lighter !important;
+  font-variant: all-small-caps !important;
+  letter-spacing: .25em !important;
+}

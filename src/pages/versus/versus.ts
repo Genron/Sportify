@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
 import {RankPage} from "../rank/rank";
+import {HomePage} from "../home/home";
 
 
 /**
@@ -23,14 +24,30 @@ export class VersusPage {
   selectedGame: any;
   matches: Observable<any[]>;
   teamsArray: any;
+  subscriptions: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
               private keyboard: Keyboard) {
     this.selectedGame = navParams.get("selGame");
-    this.matches = this.firebaseService.getMatches(this.selectedGame);
-    this.teams = navParams.get("attendingTeams");
 
-    this.teams.subscribe(value => this.teamsArray = value);
+    this.teams = this.firebaseService.getTeams(this.selectedGame);
+    this.matches = this.firebaseService.getMatches(this.selectedGame);
+
+    let matchesArray = [];
+    this.subscriptions.push(this.matches.subscribe(allMatches => matchesArray = allMatches));
+    this.subscriptions.push(this.teams.subscribe(allTeams => {
+      if (matchesArray.length === 0) {
+        this.matchTeams(allTeams);
+      }
+    }));
+  }
+
+  matchTeams(allTeams) {
+    for (let i = 0; i < allTeams.length; i++) {
+      for (let j = i + 1; j < allTeams.length; j++) {
+        this.firebaseService.addMatch(this.selectedGame, allTeams[i], allTeams[j]);
+      }
+    }
   }
 
   ionViewDidLoad() {
@@ -41,24 +58,23 @@ export class VersusPage {
     this.keyboard.close();
   }
 
-  teamWins(match, leftTeamIsWinning) {
-    // leftTeamIsWinning -> boolean
-    console.log("Match: " + match + "Winning Team" + leftTeamIsWinning);
-    this.firebaseService.updateMatch(this.selectedGame, match, leftTeamIsWinning);
+  logWin(match, leftPoint, rightPoint) {
+    this.firebaseService.updateMatch(this.selectedGame, match, leftPoint, rightPoint);
   }
 
-  draw(match) {
-    console.log("Match: " + match);
-    this.firebaseService.updateMatchDraw(match);
-
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   showRanking() {
     this.navCtrl.push(RankPage, {
       selGame: this.selectedGame,
-      sortTeams: this.teamsArray
+      // sortTeams: this.teamsArray
     });
     console.log("To the rank page");
   }
 
+  toHome() {
+    this.navCtrl.push(HomePage);
+  }
 }

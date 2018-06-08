@@ -1,14 +1,22 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title><h1>Sportify<small> - Team up and Play</small></h1></ion-title>
+  <ion-navbar [hideBackButton]="true">
+    <ion-title style="background-color:  #4cb5ab">
+      <!--<ion-img width="80" height="80" src="icon.png"></ion-img>-->
+      <h1 style="color: white">Sportify</h1>
+      <h5 style="color: white; font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">Team up and
+        Play</h5>
+    </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="newGame" (keyup.enter)="addGame()"
-                   (ionCancel)="this.newGame=''" placeholder="New Game..."></ion-searchbar>
+    <ion-item style="background-color: transparent">
+      <ion-input style="mso-highlight: black" [clearInput]="true" type="text" [(ngModel)]="newGame"
+                 (keyup.enter)="addGame()"
+                 (ionCancel)="this.newGame=''" placeholder="Gamename"></ion-input>
+    </ion-item>
     <ion-buttons end>
-      <button ion-button solid icon-right (click)="addGame()" style="marginright:
-12px; padding:21px 16px 21px 16px">Add
-        <ion-icon name="md-basket"></ion-icon>
+      <button ion-button icon-only
+              style="background-color: #4cb5ab; border-radius: 50%; width: 3em; height: 3em; color: white " (click)="addGame()">
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
@@ -20,8 +28,8 @@
   <ion-list no-padding>
     <ion-item-sliding *ngFor="let game of availableGames | async">
       <ion-item (click)="gameTapped($event, game)" detail-push>
-        <h1 *ngIf="game.isDone==false">{{game.gameName}}</h1>
-        <h1 *ngIf="game.isDone!=false" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.value}}</h1>
+        <h1 *ngIf="!game.isDone">{{game.gameName}}</h1>
+        <h1 *ngIf="game.isDone" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.gameName}}</h1>
       </ion-item>
       <ion-item-options (ionSwipe)="removeGame(game.key)" side="right">
         <button ion-button color="danger" icon-only
@@ -30,11 +38,13 @@
         </button>
       </ion-item-options>
       <ion-item-options (ionSwipe)="gameDone(game.key, !game.isDone)" side="left">
-        <button ion-button *ngIf="!game.isDone" color="secondary"
-                (click)="gameDone(game.key, !game.isDone)">Done
+        <button ion-button *ngIf="!game.isDone" color="secondary" icon-only
+                (click)="gameDone(game.key, !game.isDone)">
+          <ion-icon name="checkmark" style="color: white"></ion-icon>
         </button>
-        <button ion-button *ngIf="game.isDone" color="dark"
-                (click)="gameDone(game.key, !game.isDone)">Undo
+        <button ion-button *ngIf="game.isDone" color="dark" icon-only
+                (click)="gameDone(game.key, !game.isDone)">
+          <ion-icon name="undo"></ion-icon>
         </button>
       </ion-item-options>
     </ion-item-sliding>
