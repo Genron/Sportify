@@ -1,9 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Content, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {VersusPage} from "../versus/versus";
+import {HomePage} from "../home/home";
 
 
 /**
@@ -23,65 +24,76 @@ export class DetailPage {
   teams: Observable<any[]>;
   newTeam: any = '';
   isDisabled: boolean = true;
+  subscriptions: any[] = [];
+  amountOfTeams: number = 0;
 
   @ViewChild(Content) content: Content;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
-    this.selectedGame = navParams.get("item");
-    this.teams = this.firebaseService.getTeams(this.selectedGame);
 
-    this.teams.subscribe(
-      x => this.isDisabled = !(x.length % 2 === 0 && x.length !== 0),
-      e => console.log('onError: %s', e),
-      () => console.log('onCompleted')
-    );
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
+              private keyboard: Keyboard, private toastCtrl: ToastController) {
+    this.selectedGame = navParams.get("selGame");
+    this.teams = this.firebaseService.getTeams(this.selectedGame);
   }
 
   addTeam() {
     if (this.newTeam.length === 0 || !this.newTeam.trim()) {
       console.log("empty");
     } else {
-      this.firebaseService.addTeam(this.selectedGame, this.newTeam).then(() => {
-        this.newTeam = "";
-        this.keyboard.close();
-        this.content.scrollToBottom();
-      });
+      this.firebaseService.clearMatches(this.selectedGame);
+      this.firebaseService.addTeam(this.selectedGame, this.newTeam)
+        .then(_ => {
+          this.newTeam = "";
+          this.content.scrollToBottom();
+        });
+      this.firebaseService.clearPoints(this.selectedGame);
     }
   }
 
-  removeTeam(id) {
-    this.firebaseService.deleteTeam(id);
-  }
-
-  doneItem(key, status) {
-    this.firebaseService.gameDone(key, status);
-  }
-
-  itemTapped(event, team) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(DetailPage, {
-      team: team
-    });
-    console.log("Hello");
+  removeTeam(team) {
+    this.firebaseService.clearMatches(this.selectedGame);
+    this.firebaseService.deleteTeam(team, this.selectedGame);
+    this.firebaseService.clearPoints(this.selectedGame);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
 
-  updateItem() {
-    this.firebaseService.updateGame(this.selectedGame.key, this.selectedGame.value).then(() => {
-      this.navCtrl.pop();
-    });
+  ionViewWillEnter() {
+    this.subscriptions.push(this.teams.subscribe(allTeams => {
+      this.isDisabled = allTeams.length < 2;
+      this.amountOfTeams = allTeams.length;
+      console.log("changed disabled to: " + this.isDisabled);
+    }));
   }
 
-  onScroll(event) {
-    this.keyboard.close();
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  startVersus(event){
+  startVersus(event) {
+
     this.navCtrl.push(VersusPage, {
-      attendingTeams: this.teams
-    });
-    console.log("To the versus page");
+      selGame: this.selectedGame
+    }).then(_ => console.log("To the versus page"));
+  }
+
+  toHome() {
+    this.navCtrl.push(HomePage);
+  }
+
+  showNoTeamToast() {
+    if (this.isDisabled) {
+      let noTeamToast = this.toastCtrl.create({
+        message: 'Create at least two teams to start the game.',
+        duration: 3000,
+        position: 'top'
+      });
+
+      noTeamToast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+      noTeamToast.present();
+    }
   }
 }

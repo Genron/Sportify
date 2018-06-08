@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Content} from 'ionic-angular';
+import {Content, NavController, ToastController} from 'ionic-angular';
 
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from 'rxjs/Observable';
@@ -14,9 +14,14 @@ import {DetailPage} from "../detail/detail";
 export class HomePage {
   availableGames: Observable<any[]>;
   newGame: any = '';
+  subscriptions: any[] = [];
+  amountOfGames: number = 0;
+  doneGames: number = 0;
+
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
+  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
+              private toastCtrl: ToastController) {
     this.availableGames = this.firebaseService.getGames();
   }
 
@@ -24,11 +29,11 @@ export class HomePage {
     if (this.newGame.length === 0 || !this.newGame.trim()) {
       console.log("empty");
     } else {
-      this.firebaseService.createGame(this.newGame).then(() => {
-        this.newGame = "";
-        this.keyboard.close();
-        this.content.scrollToBottom();
-      });
+      this.firebaseService.createGame(this.newGame)
+        .then(_ => {
+          this.newGame = "";
+          this.content.scrollToBottom();
+        });
     }
   }
 
@@ -40,15 +45,44 @@ export class HomePage {
     this.firebaseService.gameDone(key, isDone);
   }
 
-  onScroll(event) {
-    this.keyboard.close();
-  }
-
   gameTapped(event, game) {
-    this.navCtrl.push(DetailPage, {
-      item: game
-    });
-    console.log("To the detail page");
+    if (!game.isDone) {
+      this.navCtrl.push(DetailPage, {
+        selGame: game
+      }).then(_ => console.log("To the detail page"));
+    } else {
+      console.log("Game is done. Undo to access the game");
+      this.showGameDoneToast();
+    }
   }
 
+  ionViewWillEnter() {
+    this.subscriptions.push(this.availableGames.subscribe(games => {
+      this.doneGames = 0;
+      games.forEach(game => {
+        if (game.isDone) {
+          this.doneGames++;
+        }
+      });
+      this.amountOfGames = games.length;
+    }));
+  }
+
+  ionViewWillLeave() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  showGameDoneToast() {
+    let gameDoneToast = this.toastCtrl.create({
+      message: 'This game is already done. Undo to access the game.',
+      duration: 3000,
+      position: 'top'
+    });
+
+    gameDoneToast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    gameDoneToast.present();
+  }
 }

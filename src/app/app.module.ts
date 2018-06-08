@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,6 +16,7 @@ import {AngularFireModule} from 'angularfire2';
 import { Keyboard } from '@ionic-native/keyboard';
 import {DetailPage} from "../pages/detail/detail";
 import {VersusPage} from "../pages/versus/versus";
+import {RankPage} from "../pages/rank/rank";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCNLMdjqkg1_IEhATcV2tlYsNz2_DIXf4A",
@@ -25,14 +25,15 @@ const firebaseConfig = {
   projectId: "sportify-ea39b",
   storageBucket: "sportify-ea39b.appspot.com",
   messagingSenderId: "542806684553"
-}
+};
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     VersusPage,
-    DetailPage
+    DetailPage,
+    RankPage
   ],
   imports: [
     BrowserModule,
@@ -45,13 +46,12 @@ const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     VersusPage,
-    DetailPage
+    DetailPage,
+    RankPage
   ],
   providers: [
     StatusBar,
-    SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseServiceProvider,
     StatusBar,

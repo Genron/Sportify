@@ -14,3 +14,15 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.alignleft {
+  color: #5b5b75;
+  padding: 0 0 .5em .75em;
+  float: left;
+}
+
+.alignright {
+  color: #5b5b75;
+  padding: 0 .75em .5em 0;
+  float: right;
+}

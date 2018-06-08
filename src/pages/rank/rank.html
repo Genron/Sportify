@@ -1,0 +1,40 @@
+<!--
+  Generated template for the DetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title (click)="toHome()" style="font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">
+      {{selectedGame.gameName}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div>
+    <h2 class="alignleft">Ranking</h2>
+    <h2 class="alignright" *ngIf="gameDone"><small>done</small></h2>
+    <h2 class="alignright" *ngIf="!gameDone"><small>open</small></h2>
+  </div>
+  <ion-list no-padding>
+    <ion-item *ngFor="let rankingTeam of sortedTeams">
+      <div class="ranking-box">
+        <p class="ranking">{{rankingTeam.rank}}.</p>
+        <div class="ranking-text">
+          <h1>{{rankingTeam.teamName}}</h1>
+          <p>Score {{rankingTeam.score}}</p>
+        </div>
+        <ion-icon color="gold" name="medal" class="medal-icon" *ngIf="rankingTeam.rank === 1"></ion-icon>
+        <ion-icon color="silver" name="medal" class="medal-icon" *ngIf="rankingTeam.rank === 2"></ion-icon>
+        <ion-icon color="bronze" name="medal" class="medal-icon" *ngIf="rankingTeam.rank === 3"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <button ion-button block (click)="backToHome()" class="btn">
+    <ion-icon name="home" style="zoom:1.5;"></ion-icon>
+  </button>
+</ion-footer>
+

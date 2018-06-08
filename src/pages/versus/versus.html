@@ -5,14 +5,55 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>Versus</ion-title>
+    <ion-title (click)="toHome()" style="font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">
+      {{selectedGame.gameName}}
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content (ionScroll)="onScroll($event)">
+  <div>
+    <h2 class="alignleft">Matches</h2>
+    <h2 class="alignright"><small>{{matchesPlayed}}/{{allMatches}}</small></h2>
+  </div>
+  <ion-list no-padding>
+    <ion-item-sliding *ngFor="let match of matches | async">
+      <ion-item  style="text-align: center" detail-push (click)="showSlideToast()">
+        <div class="row" *ngIf="!match.played">
+          <ion-icon color="secondary" name="arrow-dropleft" class="arrow-left"></ion-icon>
+          <span class="team-left">{{match.team1.teamName}}</span>
+          <span class="count">[ - : - ]</span>
+          <span class="team-right">{{match.team2.teamName}}</span>
+          <ion-icon color="secondary" name="arrow-dropright" class="arrow-right"></ion-icon>
+        </div>
+        <div class="row" *ngIf="match.played" style="color:rgb(211, 211, 211)">
+          <ion-icon color="#D3D3D3" name="arrow-dropleft" class="arrow-left"></ion-icon>
+          <span class="team-left">{{match.team1.teamName}}</span>
+          <span class="count">[ {{match.team1.score}} : {{match.team2.score}} ]</span>
+          <span class="team-right">{{match.team2.teamName}}</span>
+          <ion-icon color="#D3D3D3" name="arrow-dropright" class="arrow-right"></ion-icon>
+        </div>
+      </ion-item>
+      <ion-item-options (ionSwipe)="logWin(match, true, false)" side="left">
+        <button ion-button color="secondary" (click)="logWin(match, true, false)" style="color: white">
+          {{match.team1.teamName}} wins
+        </button>
+        <button ion-button color="dark" (click)="logWin(match, true, true)" style="color: white"> draw
+        </button>
+      </ion-item-options>
+      <ion-item-options (ionSwipe)="logWin(match, false, true)" side="right">
+        <button ion-button color="dark" (click)="logWin(match, true, true)" style="color: white"> draw
+        </button>
+        <button ion-button color="secondary" (click)="logWin(match, false, true)" style="color: white">
+          {{match.team2.teamName}} wins
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <button ion-button block [disabled]="isDisabled" (click)="showRanking()" class="btn">
+    <ion-icon name="trophy" style="zoom:1.5;"></ion-icon>
+  </button>
+</ion-footer>
+
