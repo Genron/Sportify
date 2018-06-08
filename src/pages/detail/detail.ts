@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Content, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
@@ -28,7 +28,8 @@ export class DetailPage {
 
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
+              private keyboard: Keyboard, private toastCtrl: ToastController) {
     this.selectedGame = navParams.get("selGame");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
 
@@ -68,6 +69,7 @@ export class DetailPage {
   }
 
   startVersus(event) {
+
     this.navCtrl.push(VersusPage, {
       selGame: this.selectedGame
     }).then(_ => console.log("To the versus page"));
@@ -75,5 +77,20 @@ export class DetailPage {
 
   toHome() {
     this.navCtrl.push(HomePage);
+  }
+
+  showNoTeamToast() {
+    if (this.isDisabled) {
+      let noTeamToast = this.toastCtrl.create({
+        message: 'Please create at least two teams to start a game.',
+        duration: 3000,
+        position: 'top'
+      });
+
+      noTeamToast.onDidDismiss(() => {
+        console.log('Dismissed toast');
+      });
+      noTeamToast.present();
+    }
   }
 }

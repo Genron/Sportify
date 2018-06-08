@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
@@ -27,7 +27,7 @@ export class VersusPage {
   subscriptions: any[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
-              private keyboard: Keyboard) {
+              private keyboard: Keyboard,  private toastCtrl: ToastController) {
     this.selectedGame = navParams.get("selGame");
 
     this.teams = this.firebaseService.getTeams(this.selectedGame);
@@ -77,4 +77,19 @@ export class VersusPage {
   toHome() {
     this.navCtrl.push(HomePage);
   }
+
+  showSlideToast() {
+    let slideToast = this.toastCtrl.create({
+      message: 'Please swipe to log the match.',
+      duration: 3000,
+      position: 'top'
+    });
+
+    slideToast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    slideToast.present();
+  }
+
 }
