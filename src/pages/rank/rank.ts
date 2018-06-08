@@ -21,18 +21,22 @@ export class RankPage {
   sortedTeams: any[] = [];
   subscriptions: any[] = [];
   teamsMap = new Map();
+  gameDone: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = this.navParams.get("selGame");
     this.matches = this.firebaseService.getMatches(this.selectedGame);
+    this.gameDone = this.navParams.get("allMatchesDone");
+  }
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad RankPage');
+  }
+
+  ionViewWillEnter() {
     this.subscriptions.push(this.matches.subscribe(allMatches => {
       this.teamsMap = new Map();
       allMatches.forEach(match => {
-        console.log(
-          match.team1.teamName + " [" + match.team1.score + ":" + match.team2.score + "] " + match.team2.teamName
-        );
-
         let team1 = match.team1;
         let team2 = match.team2;
         let tempScore = 0;
@@ -48,16 +52,23 @@ export class RankPage {
         this.teamsMap.set(team2.key, {teamName: team2.teamName, score: team2.score + tempScore});
       });
 
-      this.teamsMap.forEach(team => console.log(team));
-
       this.sortedTeams = [];
       this.teamsMap.forEach(team => this.sortedTeams.push(team));
       this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
-    }));
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RankPage');
+      let rank = 1;
+      for (let i = 0; i < this.sortedTeams.length; i++) {
+        let teamName = this.sortedTeams[i].teamName;
+        let score = this.sortedTeams[i].score;
+        let actualRank = rank++; // Incriese the rank (for when all teams have different points)
+        if (i > 0 && this.sortedTeams[i - 1].score === score) {
+          actualRank = rank - 2; // Get the previous rank
+          rank--; // Decrease the count, thus there is multiple times the same rank
+        }
+        this.sortedTeams[i] = {rank: actualRank, teamName: teamName, score: score};
+      }
+      this.sortedTeams.forEach(team => console.log(team));
+    }));
   }
 
   ionViewWillLeave() {
@@ -69,7 +80,7 @@ export class RankPage {
   }
 
   backToHome() {
-    this.firebaseService.gameDone(this.selectedGame.key, true);
+    this.firebaseService.gameDone(this.selectedGame.key, this.gameDone);
     this.navCtrl.push(HomePage);
   }
 }

@@ -23,23 +23,16 @@ export class VersusPage {
   teams: Observable<any[]>;
   selectedGame: any;
   matches: Observable<any[]>;
-  teamsArray: any;
   subscriptions: any[] = [];
+  matchesPlayed: number;
+  allMatches: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
-              private keyboard: Keyboard,  private toastCtrl: ToastController) {
+              private keyboard: Keyboard, private toastCtrl: ToastController) {
     this.selectedGame = navParams.get("selGame");
 
     this.teams = this.firebaseService.getTeams(this.selectedGame);
     this.matches = this.firebaseService.getMatches(this.selectedGame);
-
-    let matchesArray = [];
-    this.subscriptions.push(this.matches.subscribe(allMatches => matchesArray = allMatches));
-    this.subscriptions.push(this.teams.subscribe(allTeams => {
-      if (matchesArray.length === 0) {
-        this.matchTeams(allTeams);
-      }
-    }));
   }
 
   matchTeams(allTeams) {
@@ -62,6 +55,25 @@ export class VersusPage {
     this.firebaseService.updateMatch(this.selectedGame, match, leftPoint, rightPoint);
   }
 
+  ionViewWillEnter() {
+    let matchesArray = [];
+    this.subscriptions.push(this.matches.subscribe(allMatches => {
+      matchesArray = allMatches;
+      this.allMatches = matchesArray.length;
+      this.matchesPlayed = 0;
+      matchesArray.forEach(match => {
+        if (match.played) {
+          this.matchesPlayed++;
+        }
+      })
+    }));
+    this.subscriptions.push(this.teams.subscribe(allTeams => {
+      if (matchesArray.length === 0) {
+        this.matchTeams(allTeams);
+      }
+    }));
+  }
+
   ionViewWillLeave() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
@@ -69,7 +81,7 @@ export class VersusPage {
   showRanking() {
     this.navCtrl.push(RankPage, {
       selGame: this.selectedGame,
-      // sortTeams: this.teamsArray
+      allMatchesDone: this.matchesPlayed === this.allMatches
     });
     console.log("To the rank page");
   }
@@ -80,7 +92,7 @@ export class VersusPage {
 
   showSlideToast() {
     let slideToast = this.toastCtrl.create({
-      message: 'Please swipe to log the match.',
+      message: 'Swipe to log the match.',
       duration: 3000,
       position: 'top'
     });

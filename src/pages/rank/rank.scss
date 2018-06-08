@@ -1,3 +1,28 @@
 page-rank {
 
+  & .ranking-box {
+    padding: .5em 0 .5em 0;
+
+    & .ranking {
+      display: inline-block;
+    }
+
+    & .ranking-text {
+      position: absolute;
+      top: .6em;
+      left: 12%;
+      display: inline-block;
+    }
+
+    & .medal-icon {
+      position: absolute;
+      top: .6em;
+      left: 89%;
+      zoom: 1.5;
+    }
+  }
+
+  & .btn {
+    padding: 1.75em 0 1.75em 0;
+  }
 }

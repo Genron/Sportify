@@ -74,7 +74,8 @@ export class FirebaseServiceProvider {
     this.gamesRef.remove(key).then(_ => console.log("Game removed"));
   }
 
-  deleteTeam(team) {
+  deleteTeam(team, selectedGame) {
+    this.teamsRef = this.afd.list('/games/' + selectedGame.key + '/attendingTeams/');
     this.teamsRef.remove(team.key).then(_ => console.log("Team removed"));
   }
 

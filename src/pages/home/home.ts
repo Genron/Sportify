@@ -15,12 +15,15 @@ export class HomePage {
   availableGames: Observable<any[]>;
   newGame: any = '';
   subscriptions: any[] = [];
+  amountOfGames: number = 0;
+  doneGames: number = 0;
+
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
               private toastCtrl: ToastController) {
     this.availableGames = this.firebaseService.getGames();
-      }
+  }
 
   addGame() {
     if (this.newGame.length === 0 || !this.newGame.trim()) {
@@ -28,10 +31,9 @@ export class HomePage {
     } else {
       this.firebaseService.createGame(this.newGame)
         .then(_ => {
-        this.newGame = "";
-        this.keyboard.close();
-        this.content.scrollToBottom();
-      });
+          this.newGame = "";
+          this.content.scrollToBottom();
+        });
     }
   }
 
@@ -43,10 +45,6 @@ export class HomePage {
     this.firebaseService.gameDone(key, isDone);
   }
 
-  onScroll(event) {
-    this.keyboard.close();
-  }
-
   gameTapped(event, game) {
     if (!game.isDone) {
       this.navCtrl.push(DetailPage, {
@@ -56,6 +54,18 @@ export class HomePage {
       console.log("Game is done. Undo to access the game");
       this.showGameDoneToast();
     }
+  }
+
+  ionViewWillEnter() {
+    this.subscriptions.push(this.availableGames.subscribe(games => {
+      this.doneGames = 0;
+      games.forEach(game => {
+        if (game.isDone) {
+          this.doneGames++;
+        }
+      });
+      this.amountOfGames = games.length;
+    }));
   }
 
   ionViewWillLeave() {
