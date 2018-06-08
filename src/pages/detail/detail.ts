@@ -71,10 +71,6 @@ export class DetailPage {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  onScroll(event) {
-    this.keyboard.close();
-  }
-
   startVersus(event) {
 
     this.navCtrl.push(VersusPage, {

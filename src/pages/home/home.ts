@@ -32,7 +32,6 @@ export class HomePage {
       this.firebaseService.createGame(this.newGame)
         .then(_ => {
           this.newGame = "";
-          this.keyboard.close();
           this.content.scrollToBottom();
         });
     }
@@ -44,10 +43,6 @@ export class HomePage {
 
   gameDone(key, isDone) {
     this.firebaseService.gameDone(key, isDone);
-  }
-
-  onScroll(event) {
-    this.keyboard.close();
   }
 
   gameTapped(event, game) {
