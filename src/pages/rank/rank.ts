@@ -52,7 +52,7 @@ export class RankPage {
 
       this.sortedTeams = [];
       this.teamsMap.forEach(team => this.sortedTeams.push(team));
-      this.sortedTeams = this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
+      this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
     }));
   }
 
