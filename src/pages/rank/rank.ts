@@ -29,10 +29,6 @@ export class RankPage {
     this.subscriptions.push(this.matches.subscribe(allMatches => {
       this.teamsMap = new Map();
       allMatches.forEach(match => {
-        console.log(
-          match.team1.teamName + " [" + match.team1.score + ":" + match.team2.score + "] " + match.team2.teamName
-        );
-
         let team1 = match.team1;
         let team2 = match.team2;
         let tempScore = 0;
@@ -48,11 +44,16 @@ export class RankPage {
         this.teamsMap.set(team2.key, {teamName: team2.teamName, score: team2.score + tempScore});
       });
 
-      this.teamsMap.forEach(team => console.log(team));
-
       this.sortedTeams = [];
       this.teamsMap.forEach(team => this.sortedTeams.push(team));
       this.sortedTeams.sort((team1, team2) => team1.score < team2.score ? 1 : -1);
+      for (let i = 0; i < this.sortedTeams.length; i++) {
+        let name = this.sortedTeams[i].teamName;
+        let scor = this.sortedTeams[i].score;
+        let plac = i + 1;
+        this.sortedTeams[i] = {rank: plac, teamName: name, score: scor};
+      }
+      this.sortedTeams.forEach(team => console.log(team));
     }));
   }
 
