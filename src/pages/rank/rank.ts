@@ -25,7 +25,13 @@ export class RankPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
     this.selectedGame = this.navParams.get("selGame");
     this.matches = this.firebaseService.getMatches(this.selectedGame);
+  }
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad RankPage');
+  }
+
+  ionViewWillEnter() {
     this.subscriptions.push(this.matches.subscribe(allMatches => {
       this.teamsMap = new Map();
       allMatches.forEach(match => {
@@ -55,10 +61,6 @@ export class RankPage {
       }
       this.sortedTeams.forEach(team => console.log(team));
     }));
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RankPage');
   }
 
   ionViewWillLeave() {

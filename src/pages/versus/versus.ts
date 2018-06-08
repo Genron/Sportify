@@ -32,14 +32,6 @@ export class VersusPage {
 
     this.teams = this.firebaseService.getTeams(this.selectedGame);
     this.matches = this.firebaseService.getMatches(this.selectedGame);
-
-    let matchesArray = [];
-    this.subscriptions.push(this.matches.subscribe(allMatches => matchesArray = allMatches));
-    this.subscriptions.push(this.teams.subscribe(allTeams => {
-      if (matchesArray.length === 0) {
-        this.matchTeams(allTeams);
-      }
-    }));
   }
 
   matchTeams(allTeams) {
@@ -62,6 +54,16 @@ export class VersusPage {
     this.firebaseService.updateMatch(this.selectedGame, match, leftPoint, rightPoint);
   }
 
+  ionViewWillEnter() {
+    let matchesArray = [];
+    this.subscriptions.push(this.matches.subscribe(allMatches => matchesArray = allMatches));
+    this.subscriptions.push(this.teams.subscribe(allTeams => {
+      if (matchesArray.length === 0) {
+        this.matchTeams(allTeams);
+      }
+    }));
+  }
+
   ionViewWillLeave() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
@@ -80,7 +82,7 @@ export class VersusPage {
 
   showSlideToast() {
     let slideToast = this.toastCtrl.create({
-      message: 'Please swipe to log the match.',
+      message: 'Swipe to log the match.',
       duration: 3000,
       position: 'top'
     });

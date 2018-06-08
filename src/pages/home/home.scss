@@ -1,4 +1,15 @@
 page-home {
+  & .sportify-header {
+    & h1 {
+      padding: 0 0 0 .5em;
+    }
+
+    & h5 {
+      padding: 0 0 1.25em .75em;
+      margin: -.25em 0 0 0;
+    }
+  }
+
   & h1 {
     display: inline-block;
   }
@@ -11,6 +22,6 @@ page-home {
     transform: translateX(-100%);
     position: absolute;
     left: 96%;
-    zoom:1.25;
+    zoom: 1.25;
   }
 }

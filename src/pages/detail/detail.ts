@@ -32,8 +32,6 @@ export class DetailPage {
               private keyboard: Keyboard, private toastCtrl: ToastController) {
     this.selectedGame = navParams.get("selGame");
     this.teams = this.firebaseService.getTeams(this.selectedGame);
-
-    this.subscriptions.push(this.teams.subscribe(allTeams => this.isDisabled = allTeams.length < 2));
   }
 
   addTeam() {
@@ -52,12 +50,19 @@ export class DetailPage {
 
   removeTeam(team) {
     this.firebaseService.clearMatches(this.selectedGame);
-    this.firebaseService.deleteTeam(team);
+    this.firebaseService.deleteTeam(team, this.selectedGame);
     this.firebaseService.clearPoints(this.selectedGame);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
+  }
+
+  ionViewWillEnter() {
+    this.subscriptions.push(this.teams.subscribe(allTeams => {
+      this.isDisabled = allTeams.length < 2;
+      console.log("changed disabled to: " + this.isDisabled);
+    }));
   }
 
   ionViewWillLeave() {
@@ -82,7 +87,7 @@ export class DetailPage {
   showNoTeamToast() {
     if (this.isDisabled) {
       let noTeamToast = this.toastCtrl.create({
-        message: 'Please create at least two teams to start a game.',
+        message: 'Create at least two teams to start the game.',
         duration: 3000,
         position: 'top'
       });

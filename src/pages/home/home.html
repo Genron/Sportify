@@ -1,10 +1,11 @@
 <ion-header>
   <ion-navbar [hideBackButton]="true">
     <ion-title style="background-color:  #4cb5ab">
-      <!--<ion-img width="80" height="80" src="icon.png"></ion-img>-->
-      <h1 style="color: white">Sportify</h1>
-      <h5 style="color: white; font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">Team up and
-        Play</h5>
+      <div class="sportify-header">
+        <h1 style="color: white">Sportify</h1>
+        <h5 style="color: white; font-weight: lighter; font-variant: all-small-caps; letter-spacing: .25em;">Team up and
+          Play</h5>
+      </div>
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
@@ -15,7 +16,8 @@
     </ion-item>
     <ion-buttons end>
       <button ion-button icon-only
-              style="background-color: #4cb5ab; border-radius: 50%; width: 3em; height: 3em; color: white " (click)="addGame()">
+              style="background-color: #4cb5ab; border-radius: 50%; width: 3em; height: 3em; color: white;"
+              (click)="addGame()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
@@ -30,7 +32,7 @@
       <ion-item (click)="gameTapped($event, game)" detail-push>
         <h1 *ngIf="!game.isDone">{{game.gameName}}</h1>
         <ion-icon *ngIf="!game.isDone" color="secondary" name="arrow-dropright-circle" class="arrow-right"></ion-icon>
-        <h1 *ngIf="game.isDone" style="text-decoration: line-through;color:rgb(211, 211, 211)">{{game.gameName}}</h1>
+        <h1 *ngIf="game.isDone" style="text-decoration: line-through; color:rgb(211, 211, 211)">{{game.gameName}}</h1>
       </ion-item>
       <ion-item-options (ionSwipe)="removeGame(game.key)" side="right">
         <button ion-button color="danger" icon-only

@@ -20,7 +20,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
               private toastCtrl: ToastController) {
     this.availableGames = this.firebaseService.getGames();
-      }
+  }
 
   addGame() {
     if (this.newGame.length === 0 || !this.newGame.trim()) {
@@ -28,10 +28,10 @@ export class HomePage {
     } else {
       this.firebaseService.createGame(this.newGame)
         .then(_ => {
-        this.newGame = "";
-        this.keyboard.close();
-        this.content.scrollToBottom();
-      });
+          this.newGame = "";
+          this.keyboard.close();
+          this.content.scrollToBottom();
+        });
     }
   }
 
@@ -56,6 +56,10 @@ export class HomePage {
       console.log("Game is done. Undo to access the game");
       this.showGameDoneToast();
     }
+  }
+
+  ionViewWillEnter() {
+
   }
 
   ionViewWillLeave() {
