@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, NavController} from 'ionic-angular';
+import {Content, NavController, ToastController} from 'ionic-angular';
 
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from 'rxjs/Observable';
@@ -17,7 +17,8 @@ export class HomePage {
   subscriptions: any[] = [];
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard) {
+  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
+              private toastCtrl: ToastController) {
     this.availableGames = this.firebaseService.getGames();
       }
 
@@ -53,10 +54,25 @@ export class HomePage {
       }).then(_ => console.log("To the detail page"));
     } else {
       console.log("Game is done. Undo to access the game");
+      this.showGameDoneToast();
     }
   }
 
   ionViewWillLeave() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  showGameDoneToast() {
+    let gameDoneToast = this.toastCtrl.create({
+      message: 'This game is already done. Undo to access the game.',
+      duration: 3000,
+      position: 'top'
+    });
+
+    gameDoneToast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    gameDoneToast.present();
   }
 }
