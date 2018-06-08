@@ -29,11 +29,11 @@
         <button ion-button color="secondary" (click)="logWin(match, true, false)" style="color: white">
           {{match.team1.teamName}} wins
         </button>
-        <button ion-button color="light" (click)="logWin(match, true, true)" style="color: white"> draw
+        <button ion-button color="dark" (click)="logWin(match, true, true)" style="color: white"> draw
         </button>
       </ion-item-options>
       <ion-item-options (ionSwipe)="logWin(match, false, true)" side="right">
-        <button ion-button color="light" (click)="logWin(match, true, true)" style="color: white"> draw
+        <button ion-button color="dark" (click)="logWin(match, true, true)" style="color: white"> draw
         </button>
         <button ion-button color="secondary" (click)="logWin(match, false, true)" style="color: white">
           {{match.team2.teamName}} wins
