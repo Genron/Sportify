@@ -17,6 +17,9 @@ import { Keyboard } from '@ionic-native/keyboard';
 import {DetailPage} from "../pages/detail/detail";
 import {VersusPage} from "../pages/versus/versus";
 import {RankPage} from "../pages/rank/rank";
+import {DetailPageModule} from "../pages/detail/detail.module";
+import {RankPageModule} from "../pages/rank/rank.module";
+import {VersusPageModule} from "../pages/versus/versus.module";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCNLMdjqkg1_IEhATcV2tlYsNz2_DIXf4A",
@@ -31,9 +34,6 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    VersusPage,
-    DetailPage,
-    RankPage
   ],
   imports: [
     BrowserModule,
@@ -41,6 +41,9 @@ const firebaseConfig = {
     HttpModule,
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    DetailPageModule,
+    RankPageModule,
+    VersusPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

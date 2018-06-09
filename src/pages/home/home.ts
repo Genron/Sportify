@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, NavController, ToastController} from 'ionic-angular';
+import {Content, NavController, Platform, ToastController} from 'ionic-angular';
 
 import {FirebaseServiceProvider} from './../../providers/firebase-service/firebase-service';
 import {Observable} from 'rxjs/Observable';
@@ -17,11 +17,13 @@ export class HomePage {
   subscriptions: any[] = [];
   amountOfGames: number = 0;
   doneGames: number = 0;
+  isIOS: boolean;
 
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private keyboard: Keyboard,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController, public plt: Platform) {
+    this.isIOS = this.plt.is('ios');
     this.availableGames = this.firebaseService.getGames();
   }
 
