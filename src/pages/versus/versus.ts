@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Observable} from "rxjs/Observable";
 import {Keyboard} from "@ionic-native/keyboard";
 import {FirebaseServiceProvider} from "../../providers/firebase-service/firebase-service";
@@ -28,7 +28,7 @@ export class VersusPage {
   allMatches: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseService: FirebaseServiceProvider,
-              private keyboard: Keyboard, private toastCtrl: ToastController) {
+              private keyboard: Keyboard, private toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.selectedGame = navParams.get("selGame");
 
     this.teams = this.firebaseService.getTeams(this.selectedGame);
@@ -51,14 +51,17 @@ export class VersusPage {
     this.keyboard.close();
   }
 
-  logWin(match, leftPoint, rightPoint) {
-    this.firebaseService.updateMatch(this.selectedGame, match, leftPoint, rightPoint);
+  logMatch(match, leftPoint, rightPoint) {
+    let t1 = match.team1.score + leftPoint;
+    let t2 = match.team2.score + rightPoint;
+    this.firebaseService.updateMatch(this.selectedGame, match, t1, t2);
   }
 
   ionViewWillEnter() {
     let matchesArray = [];
     this.subscriptions.push(this.matches.subscribe(allMatches => {
       matchesArray = allMatches;
+
       this.allMatches = matchesArray.length;
       this.matchesPlayed = 0;
       matchesArray.forEach(match => {
@@ -67,6 +70,7 @@ export class VersusPage {
         }
       })
     }));
+
     this.subscriptions.push(this.teams.subscribe(allTeams => {
       if (matchesArray.length === 0) {
         this.matchTeams(allTeams);
@@ -104,4 +108,48 @@ export class VersusPage {
     slideToast.present();
   }
 
+  presentPrompt(match) {
+    let t1 = match.team1.teamName;
+    let t2 = match.team2.teamName;
+
+    let alert = this.alertCtrl.create({
+      title: match.team1.teamName + ' vs. ' + match.team2.teamName,
+      subTitle: ':',
+      inputs: [
+        {
+          name: t1,
+          type: 'number',
+          value: match.team1.score,
+          min: 0,
+          id: 'left-input'
+        },
+        {
+          name: t2,
+          type: 'number',
+          value: match.team2.score,
+          min: 0,
+          id: 'right-input'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Log',
+          handler: data => {
+            console.log('Log clicked');
+            const values = Object.keys(data).map(key => data[key]);
+            console.log(values);
+            this.logMatch(match, values[0] - match.team1.score, values[1] - match.team2.score);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }
